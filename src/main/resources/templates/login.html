@@ -1,0 +1,49 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login - Smart Agriculture Advisor</title>
+    <!-- Add a Favicon -->
+    <link rel="icon" href="/path-to-favicon.ico" type="image/x-icon" />
+    <link rel="stylesheet" href="../static/css/login.css">
+</head>
+<body>
+<a href="/api/AgriconnectChatBot" class="chatbot-btn">Need Help? Chat with Our Advisor!</a>
+<a href="/api/Agriconnect" class="back-to-home">Back To Home</a>
+<div class="container">
+    <h1>Smart Agriculture Advisor</h1>
+    <form action="/api/login" method="post">
+        <div class="form-group">
+            <label for="username">Username</label>
+            <input
+                    type="text"
+                    id="username"
+                    name="username"
+                    placeholder="Enter your username"
+                    required
+            />
+        </div>
+        <div class="form-group">
+            <label for="password">Password</label>
+            <input
+                    type="password"
+                    id="password"
+                    name="password"
+                    placeholder="Enter your password"
+                    required
+            />
+        </div>
+        <button type="submit">Log In</button>
+    </form>
+    <div class="link-container">
+        <a href="/api/register" class="link">Create New Account</a>
+    </div>
+    <div class="error-message" id="error-message">
+        Invalid username or password. Please try again.
+    </div>
+</div>
+<script src="/static/javascript/login.js"></script>
+</body>
+</html>

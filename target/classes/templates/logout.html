@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Logout - Smart Agriculture Advisor</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Tailwind CSS -->
+    <link rel="stylesheet" href="../static/css/logout.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body>
+<div>
+    <h1>Logged Out</h1>
+    <p>You have been logged out successfully.</p>
+    <div>
+        <a href="/api/login" class="link">Log In</a>
+        <a href="/api/Agriconnect" class="link">Home</a>
+    </div>
+</div>
+<script>
+    // Clear the history state to prevent navigating back to the protected pages after logout
+    window.history.pushState(null, null, window.location.href);
+    window.addEventListener('popstate', function(event) {
+        window.history.pushState(null, null, window.location.href);
+    });
+        let secondsLeft = [[${secondsLeft}]];
+        const timerElement = document.querySelector('p');
+
+        function updateTimer() {
+            timerElement.textContent = `Redirecting to login page in  ${secondsLeft} seconds...`;
+            if (secondsLeft <= 0) {
+                window.location.href = '/api/login';
+            } else {
+                secondsLeft--;
+                setTimeout(updateTimer, 2000);
+            }
+        }
+        updateTimer();
+</script>
+</body>
+</html>

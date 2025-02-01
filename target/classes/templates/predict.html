@@ -1,0 +1,187 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Crop Price Entry Form</title>
+    <link
+            href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css"
+            rel="stylesheet"
+    />
+    <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"
+    />
+    <link rel="stylesheet" href="../static/css/predict.css">
+</head>
+<body class="p-6">
+<!-- Floating Shapes Background -->
+<div class="floating-shapes">
+    <div
+            class="shape"
+            style="
+          top: 20%;
+          left: 10%;
+          width: 80px;
+          height: 80px;
+          animation-delay: 0s;
+        "
+    ></div>
+    <div
+            class="shape"
+            style="
+          top: 60%;
+          left: 80%;
+          width: 60px;
+          height: 60px;
+          animation-delay: 2s;
+        "
+    ></div>
+    <div
+            class="shape"
+            style="
+          top: 40%;
+          left: 40%;
+          width: 40px;
+          height: 40px;
+          animation-delay: 4s;
+        "
+    ></div>
+</div>
+
+<div class="max-w-6xl mx-auto">
+    <!-- Navigation Buttons -->
+    <div
+            class="flex justify-between mb-8 animate__animated animate__fadeInDown"
+    >
+        <a href="/api/AgriconnectChatBot" class="nav-button">Need Help? Chat with Our Advisor!</a>
+        <a href="/api/Agriconnect" class="nav-button"> Back to Home </a>
+    </div>
+
+    <!-- Main Form Card -->
+    <div class="glass-card p-8 animate__animated animate__fadeIn">
+        <div class="text-center mb-8">
+            <h1
+                    class="text-4xl font-bold text-gray-800 mb-2 animate__animated animate__fadeInUp"
+            >
+                Crop Price Details Entry
+            </h1>
+            <p
+                    class="text-xl text-gray-600 animate__animated animate__fadeInUp animate__delay-1s"
+            >
+                फसल मूल्य विवरण प्रविष्टि
+            </p>
+        </div>
+
+        <form action="/api/predict" method="post" class="space-y-8">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <!-- State Selection -->
+                <div class="form-group form-section" style="animation-delay: 0.1s">
+                    <label for="state" class="form-label">State / राज्य</label>
+                    <select id="state" name="state" required class="form-input">
+                        <option value="">Select State / राज्य का चयन करें</option>
+                        <option value="Karnataka">Karnataka</option>
+                        <option value="Maharashtra">Maharashtra</option>
+                        <option value="Gujarat">Gujarat</option>
+                        <option value="Tamil Nadu">Tamil Nadu</option>
+                    </select>
+                </div>
+
+                <!-- District Selection -->
+                <div class="form-group form-section" style="animation-delay: 0.2s">
+                    <label for="district" class="form-label">District / जिला</label>
+                    <select id="district" name="district" required class="form-input">
+                        <option value="">Select District / जिले का चयन करें</option>
+                        <option value="Shimoga">Shimoga</option>
+                        <option value="Pune">Pune</option>
+                        <option value="Amreli">Amreli</option>
+                        <option value="Coimbatore">Coimbatore</option>
+                    </select>
+                </div>
+
+                <!-- Market Input -->
+                <div class="form-group form-section" style="animation-delay: 0.3s">
+                    <label for="market" class="form-label">Market / बाजार</label>
+                    <input
+                            type="text"
+                            id="market"
+                            name="market"
+                            required
+                            class="form-input"
+                            placeholder="Enter Market / बाजार दर्ज करें"
+                    />
+                </div>
+
+                <!-- Crop Name Input -->
+                <div class="form-group form-section" style="animation-delay: 0.4s">
+                    <label for="cropName" class="form-label"
+                    >Crop Name / फसल का नाम</label
+                    >
+                    <input
+                            type="text"
+                            id="cropName"
+                            name="cropName"
+                            required
+                            class="form-input"
+                            placeholder="Enter Crop Name / फसल का नाम दर्ज करें"
+                    />
+                </div>
+
+                <!-- Arrival Date Input -->
+                <div class="form-group form-section" style="animation-delay: 0.5s">
+                    <label for="arrivalDate" class="form-label"
+                    >Arrival Date / आगमन तिथि</label
+                    >
+                    <input
+                            type="date"
+                            id="arrivalDate"
+                            name="arrivalDate"
+                            required
+                            class="form-input"
+                            placeholder="Enter The Date of Release of Your Crop"
+                    />
+                </div>
+
+                <!-- Price Range Inputs -->
+                <div class="space-y-4 form-section" style="animation-delay: 0.6s">
+                    <div class="form-group">
+                        <label for="minPrice" class="form-label"
+                        >Minimum Price / न्यूनतम मूल्य</label
+                        >
+                        <input
+                                type="number"
+                                id="minPrice"
+                                name="minPrice"
+                                required
+                                class="form-input"
+                                placeholder="Enter Minimum Price / न्यूनतम मूल्य दर्ज करें"
+                        />
+                    </div>
+                    <div class="form-group">
+                        <label for="maxPrice" class="form-label"
+                        >Maximum Price / अधिकतम मूल्य</label
+                        >
+                        <input
+                                type="number"
+                                id="maxPrice"
+                                name="maxPrice"
+                                required
+                                class="form-input"
+                                placeholder="Enter Maximum Price / अधिकतम मूल्य दर्ज करें"
+                        />
+                    </div>
+                </div>
+            </div>
+
+            <!-- Submit Button -->
+            <div class="mt-8 form-section" style="animation-delay: 0.7s">
+                <button type="submit" class="submit-button">
+                    Submit / सबमिट करें
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+</body>
+</html>

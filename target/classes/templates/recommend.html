@@ -1,0 +1,187 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Crop Price Entry Form</title>
+    <link
+            href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css"
+            rel="stylesheet"
+    />
+    <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"
+    />
+    <link rel="stylesheet" href="../static/css/recommend.css">
+</head>
+<body class="p-6">
+<!-- Floating Shapes Background -->
+<div class="floating-shapes">
+    <div
+            class="shape"
+            style="
+          top: 20%;
+          left: 10%;
+          width: 80px;
+          height: 80px;
+          animation-delay: 0s;
+        "
+    ></div>
+    <div
+            class="shape"
+            style="
+          top: 60%;
+          left: 80%;
+          width: 60px;
+          height: 60px;
+          animation-delay: 2s;
+        "
+    ></div>
+    <div
+            class="shape"
+            style="
+          top: 40%;
+          left: 40%;
+          width: 40px;
+          height: 40px;
+          animation-delay: 4s;
+        "
+    ></div>
+</div>
+
+<div class="max-w-6xl mx-auto">
+    <!-- Navigation Buttons -->
+    <div
+            class="flex justify-between mb-8 animate__animated animate__fadeInDown"
+    >
+        <a href="/api/AgriconnectChatBot" class="nav-button">Need Help? Chat with Our Advisor!</a>
+        <a href="/api/Agriconnect" class="nav-button"> Back to Home </a>
+    </div>
+
+    <!-- Main Form Card -->
+    <div class="glass-card p-8 animate__animated animate__fadeIn">
+        <div class="text-center mb-8">
+            <h1
+                    class="text-4xl font-bold text-gray-800 mb-2 animate__animated animate__fadeInUp"
+            > Crop Advisor
+            </h1>
+            <p
+                    class="text-xl text-gray-600 animate__animated animate__fadeInUp animate__delay-1s"
+            >
+                फसल सुझाव
+            </p>
+        </div>
+
+        <form action="/api/recommend" method="post" class="space-y-8">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div class="form-group form-section" style="animation-delay: 0.1s">
+                    <label for="N" class="form-label"
+                    >Nitrogen (N) / नाइट्रोजन (N)</label
+                    >
+                    <input
+                            type="number"
+                            id="N"
+                            name="N"
+                            required
+                            class="form-input"
+                            placeholder="Enter Nitrogen Level / नाइट्रोजन स्तर दर्ज करें"
+                    />
+                </div>
+
+                <div class="form-group form-section" style="animation-delay: 0.2s">
+                    <label for="P" class="form-label"
+                    >Phosphorus (P) / फॉस्फोरस (P)</label
+                    >
+                    <input
+                            type="number"
+                            class="form-input"
+                            id="P"
+                            name="P"
+                            placeholder="Enter Phosphorus Level / फॉस्फोरस स्तर दर्ज करें"
+                            required
+                    />
+                </div>
+
+                <div class="form-group form-section" style="animation-delay: 0.3s">
+                    <label for="K" class="form-label"
+                    >Potassium (K) / पोटेशियम (K)</label
+                    >
+                    <input
+                            type="number"
+                            class="form-input"
+                            id="K"
+                            name="K"
+                            placeholder="Enter Potassium Level / पोटेशियम स्तर दर्ज करें"
+                            required
+                    />
+                </div>
+
+                <div class="form-group form-section" style="animation-delay: 0.4s">
+                    <label for="temperature" class="form-label"
+                    >Temperature (°C) / तापमान (°C)</label
+                    >
+                    <input
+                            type="number"
+                            class="form-input"
+                            id="temperature"
+                            name="temperature"
+                            placeholder="Enter Temperature / तापमान दर्ज करें"
+                            required
+                    />
+                </div>
+
+                <div class="form-group form-section" style="animation-delay: 0.5s">
+                    <label for="humidity" class="form-label"
+                    >Humidity (%) / आर्द्रता (%)</label
+                    >
+                    <input
+                            type="number"
+                            class="form-input"
+                            id="humidity"
+                            name="humidity"
+                            placeholder="Enter Humidity Level / आर्द्रता स्तर दर्ज करें"
+                            required
+                    />
+                </div>
+
+                <div class="space-y-4 form-section" style="animation-delay: 0.6s">
+                    <div class="form-group">
+                        <label for="rainfall" class="form-label"
+                        >Rainfall (mm) / वर्षा (mm)</label
+                        >
+                        <input
+                                type="number"
+                                class="form-input"
+                                id="rainfall"
+                                name="rainfall"
+                                placeholder="Enter Rainfall Level / वर्षा स्तर दर्ज करें"
+                                required
+                        />
+                    </div>
+                    <div class="form-group">
+                        <label for="ph" class="form-label">Soil pH / मृदा पीएच</label>
+                        <input
+                                type="number"
+                                step="0.01"
+                                class="form-input"
+                                id="ph"
+                                name="ph"
+                                placeholder="Enter Soil pH / मृदा पीएच दर्ज करें"
+                                required
+                        />
+                    </div>
+                </div>
+            </div>
+
+            <!-- Submit Button -->
+            <div class="mt-8 form-section" style="animation-delay: 0.7s">
+                <button type="submit" class="submit-button">
+                    Submit / सबमिट करें
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+</body>
+</html>

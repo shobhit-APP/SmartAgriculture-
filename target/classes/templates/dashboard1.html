@@ -1,0 +1,94 @@
+
+<!DOCTYPE html>
+<html  lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Smart Agriculture Advisor - Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+            rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/static/css/dash1.css">
+</head>
+<body class="p-4">
+<div class="min-h-screen fade-in">
+    <!-- Navbar -->
+    <nav class="nav-blur shadow-lg mb-6 rounded-lg">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <div class="flex items-center">
+                    <i class="fas fa-leaf text-green-600 text-2xl mr-2"></i>
+                    <span class="text-xl font-bold text-gray-800">AgriConnect</span>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <a href="/api/Agriconnect" class="custom-button secondary-button">
+                        <i class="fas fa-home mr-1"></i> Home
+                    </a>
+                    <a href="/api/logout" class="custom-button primary-button">
+                        <i class="fas fa-sign-out-alt mr-1"></i> Logout
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="glass-container p-6 mb-6 slide-in">
+        <h1 class="text-2xl font-bold text-gray-800 mb-2">
+            Agricultural Market Dashboard
+        </h1>
+        <p class="text-gray-600">
+            Monitor crop recommendation data and receive smart recommendations on
+            different soil Parameter
+        </p>
+    </div>
+
+    <!-- Table Section -->
+    <div class="table-container slide-up">
+        <div class="p-6 border-b border-gray-200">
+            <div class="flex justify-between items-center">
+                <h2 class="text-lg font-semibold text-gray-800">Market Prices</h2>
+                <div class="flex space-x-2">
+                    <button class="custom-button secondary-button">
+                        <i class="fas fa-filter mr-1"></i> Filter
+                    </button>
+                    <button class="custom-button secondary-button">
+                        <i class="fas fa-download mr-1"></i> Export
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="overflow-x-auto">
+            <table class="custom-table">
+                <thead>
+                <tr>
+                    <th>Nitrogen (N)</th>
+                    <th>Phosphorus (P)</th>
+                    <th>Potassium (K)</th>
+                    <th>Temperature (°C)</th>
+                    <th>Humidity (%)</th>
+                    <th>Soil pH</th>
+                    <th>Rainfall (mm)</th>
+                    <th>Predicted Crop</th>
+                </tr>
+                </thead>
+                <tbody th:each="recommendation : ${recommendationList}">
+                <tr>
+                    <td th:text="${recommendation.N}"></td>
+                    <td th:text="${recommendation.P}"></td>
+                    <td th:text="${recommendation.K}"></td>
+                    <td th:text="${recommendation.temperature}"></td>
+                    <td th:text="${recommendation.humidity}"></td>
+                    <td th:text="${recommendation.ph}"></td>
+                    <td th:text="${recommendation.rainfall}"></td>
+                    <td th:text="${recommendation.PredictedCrop}"></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+</body>
+</html>

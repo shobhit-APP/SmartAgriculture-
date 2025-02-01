@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Prediction Result</title>
+    <link rel="stylesheet" href="../static/css/predictionresult.css">
+</head>
+<body>
+<div class="container">
+    <h1>Prediction Result</h1>
+    <p th:text="${message}"></p>
+    <div class="result">
+        <h2>Predicted Price In Rupees</h2>
+        <p th:text="${predictionResult['predicted_price_xgb']}"></p>
+    </div>
+    <a href="/api/Agriconnect" class="btn">Back To Home</a>
+</div>
+</body>
+</html>

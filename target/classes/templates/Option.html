@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Options - Smart Agriculture Advisor</title>
+    <link rel="stylesheet" href="../static/css/option.css">
+</head>
+<body>
+<header class="header">
+    <div class="action-buttons">
+        <a href="/api/AgriconnectChatBot" class="chatbot-btn">Need Help? Chat with Our Advisor!</a>
+        <a href="/api/Agriconnect" class="back-to-home">Back To Home</a>
+    </div>
+</header>
+
+<main class="main-content">
+    <div class="welcome-text">
+        <h1>Smart Agriculture Advisor</h1>
+        <p>Select an option below to get started:</p>
+
+        <div class="options">
+            <a th:href="@{/api/dashboard/{UserId}(UserId=${UserId})}" class="nav-button">
+                <span class="status-indicator"></span>
+                Previous Crop Price Predictions
+            </a>
+            <a th:href="@{/api/dashboard1/{UserId}(UserId=${UserId})}" class="nav-button">
+                <span class="status-indicator"></span>
+                Previous Crop Recommendation
+            </a>
+            <a href="/api/predict" class="nav-button">
+                <span class="status-indicator"></span>
+                Crop Price Prediction
+            </a>
+            <a href="/api/recommend" class="nav-button">
+                <span class="status-indicator"></span>
+                Crop Recommendation
+            </a>
+            <a href="/api/logout" class="nav-button">
+                <span class="status-indicator"></span>
+                 Logout
+            </a>
+        </div>
+    </div>
+</main>
+</body>
+</html>
