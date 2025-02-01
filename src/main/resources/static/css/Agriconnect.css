@@ -20,7 +20,7 @@
         .landing-container {
             height: 100%;
             background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7));
-            background: url("/static/image/openart-image_yiJdhVE4_1731853296241_raw.jpg");
+            background: url("src/main/resources/static/image/openart-image_yiJdhVE4_1731853296241_raw.jpg");
             background-position: center;
             background-size: cover;
             display: flex;
