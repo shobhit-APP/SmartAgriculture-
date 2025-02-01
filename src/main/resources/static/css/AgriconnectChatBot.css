@@ -68,7 +68,7 @@
             padding: 20px;
             overflow-y: auto;
             background: linear-gradient(to bottom right, #f0f4f0, #e6f3e6);
-             background: url("/static/image/openart-image_yiJdhVE4_1731853296241_raw.jpg") no-repeat center fixed;
+             background: url("src/main/resources/static/image/openart-image_yiJdhVE4_1731853296241_raw.jpg") no-repeat center fixed;
             scrollbar-width: thin;
             scrollbar-color: rgba(0,0,0,0.2) transparent;
           }
