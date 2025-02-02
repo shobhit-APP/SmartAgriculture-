@@ -1,7 +1,7 @@
 
         body {
             font-family: "Poppins", sans-serif;
-            background: url("/static/image/login.jpg")
+            background-image: url("/image/login.jpg")
                 no-repeat center center fixed;
             background-size: cover;
             display: flex;
