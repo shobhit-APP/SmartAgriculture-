@@ -1,7 +1,7 @@
 
         body {
             font-family: "Poppins", sans-serif;
-            background: url("/static/image/photo-1486754735734-325b5831c3ad.avif") no-repeat center center fixed;
+            background-image: url("/static/image/photo-1486754735734-325b5831c3ad.avif") no-repeat center center fixed;
             background-size: cover;
             display: flex;
             justify-content: center;
