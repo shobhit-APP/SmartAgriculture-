@@ -1,7 +1,7 @@
 
         body {
             font-family: "Poppins", sans-serif;
-            background-image: url('/static/Image/openart-image_w-qD4vi1_1731852003518_raw.jpg');
+            background-image: url('/static/Image/login.jpg');
             background-size: cover; /* This makes sure the image covers the whole background */
             background-repeat: no-repeat; /* This prevents the image from repeating */
             background-position: center center; /* This centers the image */
