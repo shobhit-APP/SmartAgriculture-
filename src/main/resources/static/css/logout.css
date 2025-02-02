@@ -1,11 +1,7 @@
 
         body {
             font-family: "Poppins", sans-serif;
-<<<<<<< HEAD
             background-image: url("/image/login.jpg") no-repeat center fixed;
-=======
-            background-image: url("src/main/resources/static/image/login.jpg") no-repeat center fixed;
->>>>>>> origin/main
             background-size: cover;
             display: flex;
             justify-content: center;

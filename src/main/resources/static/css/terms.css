@@ -1,11 +1,7 @@
 
         body {
             font-family: "Poppins", sans-serif;
-<<<<<<< HEAD
             background-image: url("../image/1000_F_247373254_tI8NE7An2wy92KT4vovz37SCXnRQe7CO.jpg");
-=======
-            background-image: url("src/main/resources/static/image/1000_F_247373254_tI8NE7An2wy92KT4vovz37SCXnRQe7CO.jpg") no-repeat center center fixed;
->>>>>>> origin/main
             background-size: cover;
             margin: 0;
             padding: 0;
