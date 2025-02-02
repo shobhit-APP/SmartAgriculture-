@@ -19,7 +19,7 @@ html {
 }
 
 body {
-  background-image: url('/static/Image/openart-image_w-qD4vi1_1731852003518_raw.jpg');
+  background-image: url('static/Image/openart-image_yiJdhVE4_1731853296241_raw.jpg');
   background-size: cover; /* This makes sure the image covers the whole background */
   background-repeat: no-repeat; /* This prevents the image from repeating */
   background-position: center center; /* This centers the image */
