@@ -158,7 +158,7 @@
                 {
                   role: "system",
                   content:
-                    "You are an cricket expert assistant. Provide helpful advice about formats of cricket, cricketers, and best way of playing practices.",
+                    "You are an agricultural expert assistant. Provide helpful advice about farming, crops, and agricultural practices.",
                 },
                 { role: "user", content: UserInput },
               ],
