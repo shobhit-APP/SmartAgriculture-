@@ -148,7 +148,7 @@
             method: "POST",
             headers: {
               "Content-Type": "application/json",
-              Authorization: `Bearer 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`,
+              Authorization: `Bearer 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`,
             },
             body: JSON.stringify({
               model: "openai/gpt-3.5-turbo",
@@ -156,7 +156,7 @@
                 {
                   role: "system",
                   content:
-                    "You are an agricultural expert assistant. Provide helpful advice about farming, crops, and agricultural practices.",
+                    "You are an cricket expert assistant. Provide helpful advice about formats of cricket, cricketers, and best way of playing practices.",
                 },
                 { role: "user", content: UserInput },
               ],
