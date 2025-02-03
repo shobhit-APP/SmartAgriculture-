@@ -148,7 +148,7 @@
             method: "POST",
             headers: {
               "Content-Type": "application/json",
-              Authorization: `Bearer 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`,
+              Authorization: `Bearer YOUR API KEY`,
             },
             body: JSON.stringify({
               model: "openai/gpt-3.5-turbo",
