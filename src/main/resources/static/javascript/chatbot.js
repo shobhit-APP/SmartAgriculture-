@@ -141,7 +141,7 @@
 
       showTypingIndicator();
   // API key ko environment variable mein store karein
-      const apiKey = "YOUR_API_KEY";
+      const apiKey = process.env.YOUR_API_KEY;
 
       try {
         const response = await fetch(
