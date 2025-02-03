@@ -140,6 +140,8 @@
       document.getElementById("user-message").value = "";
 
       showTypingIndicator();
+  // API key ko environment variable mein store karein
+      const apiKey = "YOUR_API_KEY";
 
       try {
         const response = await fetch(
