@@ -33,6 +33,7 @@ public class SecurityConfiguration {
                                 // API endpoints
                                 "/api/Agriconnect.com",
                                 "/api/Agriconnect",
+                                "/api/get-api-key",
                                 "/api/AgriconnectChatBot",
                                 "/api/register",
                                 "/api/sucessfullyregister",
