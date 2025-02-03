@@ -1,13 +1,11 @@
+const form = document.getElementById("chat-form");
+const messagesDiv = document.getElementById("message");
+const typingIndicator = document.querySelector(".typing-indicator");
 
-    const form = document.getElementById("chat-form");
-    const messagesDiv = document.getElementById("message");
-    const typingIndicator = document.querySelector(".typing-indicator");
+// FAQ database
 
-    // FAQ database
-
-
- const faqDatabase = {
-     "Features of AgriConnect / AgriConnect की विशेषताएं": `
+const faqDatabase = {
+"Features of AgriConnect / AgriConnect की विशेषताएं": `
          <strong>AgriConnect is your ultimate agricultural companion, designed to revolutionize farming with cutting-edge technology! 🚜</strong><br><br>
          <strong>🌱 Crop Recommendations:</strong> Our advanced AI analyzes multiple critical parameters to suggest the <strong>PERFECT</strong> crop for your land:
          <ul>
@@ -92,107 +90,109 @@
      "Punjabi/ਪੰਜਾਬੀ": "ਤੁਸੀਂ ਪੰਜਾਬੀ ਚੁਣਿਆ ਹੈ। ਹੁਣ ਤੁਸੀਂ ਮੈਨੂੰ ਪੰਜਾਬੀ ਵਿੱਚ ਕੁਝ ਵੀ ਪੁੱਛ ਸਕਦੇ ਹੋ।",
      "Odia/ଓଡ଼ିଆ": "ଆପଣ ଓଡ଼ିଆ ଚୟନ କରିଛନ୍ତି। ଏବେ ଆପଣ ମତେ ଓଡ଼ିଆରେ କିଛିପି ପଚାରି ପାରିବେ।",
      "Assamese/অসমীয়া": "আপুনি অসমীয়া বাচনি কৰিছে। এতিয়া আপুনি মোক অসমীয়াত যিকোনো কথা সুধিব পাৰে।"
- };
+  };
 
-    // Handle FAQ chip clicks
-    document.querySelectorAll(".faq-chip").forEach((chip) => {
-      chip.addEventListener("click", () => {
+
+// Handle FAQ chip clicks
+document.querySelectorAll(".faq-chip").forEach((chip) => {
+    chip.addEventListener("click", () => {
         const topic = chip.textContent;
         if (faqDatabase[topic]) {
-          displayMessage(topic, "user");
-          showTypingIndicator();
-          setTimeout(() => {
-            displayMessage1(faqDatabase[topic], "bot");
-            hideTypingIndicator();
-          }, 1000);
+            displayMessage(topic, "user");
+            showTypingIndicator();
+            setTimeout(() => {
+                displayMessage1(faqDatabase[topic], "bot");
+                hideTypingIndicator();
+            }, 1000);
         }
-      });
     });
+});
 
-    document.getElementById("Language-select").addEventListener("change" ,(event) => {
-       const selectedLanguage = event.target.options[event.target.selectedIndex].text.trim();
-       if(faqDatabase[selectedLanguage])
-       {
-          displayMessage(selectedLanguage ,"user");
-          showTypingIndicator();
-          setTimeout( () => {
-             hideTypingIndicator();
-             displayMessage(faqDatabase[selectedLanguage] ,"bot");
-          },1000);
-       }
-    });
-
-
-    function showTypingIndicator() {
-      typingIndicator.style.display = "flex";
-      messagesDiv.scrollTop = messagesDiv.scrollHeight;
+// Language selection handler remains the same
+document.getElementById("Language-select").addEventListener("change", (event) => {
+    const selectedLanguage = event.target.options[event.target.selectedIndex].text.trim();
+    if (faqDatabase[selectedLanguage]) {
+        displayMessage(selectedLanguage, "user");
+        showTypingIndicator();
+        setTimeout(() => {
+            hideTypingIndicator();
+            displayMessage(faqDatabase[selectedLanguage], "bot");
+        }, 1000);
     }
+});
 
-    function hideTypingIndicator() {
-      typingIndicator.style.display = "none";
-    }
+function showTypingIndicator() {
+    typingIndicator.style.display = "flex";
+    messagesDiv.scrollTop = messagesDiv.scrollHeight;
+}
 
-    form.addEventListener("submit", async (event) => {
-      event.preventDefault();
+function hideTypingIndicator() {
+    typingIndicator.style.display = "none";
+}
 
-      const UserInput = document.getElementById("user-message").value;
-      displayMessage(UserInput, "user");
-      document.getElementById("user-message").value = "";
+// Updated form submission with API key fetching
+form.addEventListener("submit", async (event) => {
+    event.preventDefault();
 
-      showTypingIndicator();
-  // API key ko environment variable mein store karein
-      const apiKey = process.env.YOUR_API_KEY;
+    const userInput = document.getElementById("user-message").value;
+    displayMessage(userInput, "user");
+    document.getElementById("user-message").value = "";
 
-      try {
-        const response = await fetch(
-          "https://openrouter.ai/api/v1/chat/completions",
-          {
+    showTypingIndicator();
+
+    try {
+        // Get API key from your backend
+        const apiKeyResponse = await fetch("/api/get-api-key");
+        const apiKey = await apiKeyResponse.text();
+
+        // Make request to OpenRouter with required headers
+        const response = await fetch("https://openrouter.ai/api/v1/chat/completions", {
             method: "POST",
             headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${apiKey}`,
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${apiKey}`,
+                "HTTP-Referer": window.location.origin,
+                "X-Title": "AgriConnect"
             },
             body: JSON.stringify({
-              model: "openai/gpt-3.5-turbo",
-              messages: [
-                {
-                  role: "system",
-                  content:
-                    "You are an agricultural expert assistant. Provide helpful advice about farming, crops, and agricultural practices.",
-                },
-                { role: "user", content: UserInput },
-              ],
-            }),
-          }
-        );
+                model: "openai/gpt-3.5-turbo",
+                messages: [
+                    {
+                        role: "system",
+                        content: "You are an agricultural expert assistant. Provide helpful advice about farming, crops, and agricultural practices.",
+                    },
+                    { role: "user", content: userInput }
+                ]
+            })
+        });
 
         const data = await response.json();
         hideTypingIndicator();
 
         if (data.choices && data.choices[0].message) {
-          displayMessage(data.choices[0].message.content, "bot");
+            displayMessage(data.choices[0].message.content, "bot");
         } else {
-          displayMessage("Error: No response from the bot.", "bot");
+            displayMessage("Error: No response from the bot.", "bot");
         }
-      } catch (error) {
+    } catch (error) {
+        console.error("Error:", error);
         hideTypingIndicator();
         displayMessage("Error: Unable to connect to the API.", "bot");
-      }
-    });
-
-    function displayMessage1(message, sender) {
-            const messageDiv = document.createElement("div");
-            messageDiv.classList.add("message", sender);
-            messageDiv.innerHTML = message;
-            // Ensure innerHTML is used for formatted content
-            messagesDiv.appendChild(messageDiv);
-            messagesDiv.scrollTop = messagesDiv.scrollHeight;
-          }
-     // Ensure innerHTML is used for formatted content messagesDiv.appendChild(messageDiv); messagesDiv.scrollTop = messagesDiv.scrollHeight; }
-    function displayMessage(message, sender) {
-      const messageDiv = document.createElement("div");
-      messageDiv.classList.add("message", sender);
-      messageDiv.textContent = message;
-      messagesDiv.appendChild(messageDiv);
-      messagesDiv.scrollTop = messagesDiv.scrollHeight;
     }
+});
+
+function displayMessage1(message, sender) {
+    const messageDiv = document.createElement("div");
+    messageDiv.classList.add("message", sender);
+    messageDiv.innerHTML = message; // For formatted content
+    messagesDiv.appendChild(messageDiv);
+    messagesDiv.scrollTop = messagesDiv.scrollHeight;
+}
+
+function displayMessage(message, sender) {
+    const messageDiv = document.createElement("div");
+    messageDiv.classList.add("message", sender);
+    messageDiv.textContent = message; // For plain text
+    messagesDiv.appendChild(messageDiv);
+    messagesDiv.scrollTop = messagesDiv.scrollHeight;
+}
