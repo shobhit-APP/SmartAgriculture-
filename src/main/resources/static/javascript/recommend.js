@@ -1,7 +1,6 @@
-
+// JavaScript file (recommend.js)
 document.addEventListener('DOMContentLoaded', function() {
     const form = document.querySelector('form');
-    const container = document.querySelector('.max-w-6xl');
 
     // Create loading overlay
     const createLoadingOverlay = () => {
@@ -140,9 +139,9 @@ document.addEventListener('DOMContentLoaded', function() {
         loadingHeading.className = 'text-2xl font-bold text-gray-800 mb-6';
         loadingHeading.textContent = 'Analyzing Your Soil Data';
 
-        // Create message container with rotating messages
+        // Create message container
         const messageContainer = document.createElement('div');
-        messageContainer.className = 'message-container h-20 overflow-hidden relative';
+        messageContainer.className = 'message-container relative h-20 overflow-hidden';
 
         // The rotating messages
         const messages = [
@@ -155,8 +154,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
         // Create message elements and add to container
         messages.forEach((message, index) => {
-            const messageElement = document.createElement('p');
-            messageElement.className = 'text-lg text-gray-600 animate__animated my-8 message-item';
+            const messageElement = document.createElement('div');
+            messageElement.className = 'message-item';
             messageElement.textContent = message;
             messageContainer.appendChild(messageElement);
         });
@@ -181,61 +180,51 @@ document.addEventListener('DOMContentLoaded', function() {
         return overlay;
     };
 
-    // Add styles for loading animations
-    const addLoadingStyles = () => {
-        const style = document.createElement('style');
-        style.textContent = `
-            @keyframes width-animation {
-                0% { width: 5%; }
-                100% { width: 100%; }
-            }
-
-            .width-animate {
-                animation: width-animation 15s linear forwards;
-            }
-
-            .message-container {
-                position: relative;
-            }
-
-            .message-item {
-                position: absolute;
-                top: 0;
-                left: 0;
-                right: 0;
-                opacity: 0;
-            }
-
-            @keyframes messageRotation {
-                0%, 5% { opacity: 0; transform: translateY(20px); }
-                10%, 25% { opacity: 1; transform: translateY(0); }
-                30%, 100% { opacity: 0; transform: translateY(-20px); }
-            }
-        `;
-        document.head.appendChild(style);
-    };
-
     // Function to animate the messages
     const animateMessages = () => {
         const messages = document.querySelectorAll('.message-item');
-        messages.forEach((message, index) => {
-            message.style.animation = `messageRotation 15s ${index * 3}s forwards`;
+        let currentIndex = 0;
+
+        // Hide all messages initially
+        messages.forEach(msg => {
+            msg.style.opacity = '0';
+            msg.style.position = 'absolute';
+            msg.style.top = '0';
+            msg.style.left = '0';
+            msg.style.right = '0';
         });
+
+        // Show the first message
+        if (messages.length > 0) {
+            messages[0].style.opacity = '1';
+        }
+
+        // Set up interval to rotate messages
+        setInterval(() => {
+            // Hide current message
+            if (messages[currentIndex]) {
+                messages[currentIndex].style.opacity = '0';
+            }
+
+            // Move to next message
+            currentIndex = (currentIndex + 1) % messages.length;
+
+            // Show next message
+            if (messages[currentIndex]) {
+                messages[currentIndex].style.opacity = '1';
+            }
+        }, 3000); // Change message every 3 seconds
     };
 
     // Handle form submission
     form.addEventListener('submit', function(e) {
-        // Do not prevent default submission, but add loading overlay
+        // Add loading overlay
         const overlay = createLoadingOverlay();
         document.body.appendChild(overlay);
-
-        // Add loading animation styles
-        addLoadingStyles();
 
         // Start message animation
         setTimeout(animateMessages, 100);
 
         // Allow the form to submit normally
-        // The server processing time will give us time to show the animation
     });
 });
