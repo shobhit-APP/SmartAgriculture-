@@ -64,7 +64,7 @@ public class CropRecommendationController {
                 throw new AnyException("Sorry, An unexpected error occurred while processing your request. Please try again later. If the problem persists, contact support");
             }
         Map<String,Object> RecommendationResult=cropRecommendationService.GetRecommendation(cropRecommendation);
-        model.addAttribute("message","Your Input Submitted Successfully wait for recommendation");
+        model.addAttribute("message", "Recommendation complete! Here's the best crop match for your soil conditions.");
         model.addAttribute("recommendedResult",RecommendationResult);
         return "recommendedResult";
     }
