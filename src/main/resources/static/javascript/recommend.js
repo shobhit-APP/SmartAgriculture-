@@ -223,7 +223,7 @@ document.addEventListener('DOMContentLoaded', function() {
         document.body.appendChild(overlay);
 
         // Start message animation
-        setTimeout(animateMessages, 1000);
+        setTimeout(animateMessages, 8000);
 
         // Allow the form to submit normally
     });
