@@ -200,18 +200,24 @@ document.addEventListener('DOMContentLoaded', function() {
         }
 
         // Set up interval to rotate messages
-        setInterval(() => {
+        const messageInterval = setInterval(() => {
             // Hide current message
             if (messages[currentIndex]) {
                 messages[currentIndex].style.opacity = '0';
             }
 
             // Move to next message
-            currentIndex = (currentIndex + 1) % messages.length;
+            currentIndex = currentIndex + 1;
 
             // Show next message
-            if (messages[currentIndex]) {
+            if (currentIndex < messages.length) {
                 messages[currentIndex].style.opacity = '1';
+
+                // Check if this is the last message
+                if (currentIndex === messages.length - 1) {
+                    // Clear the interval once we reach the last message
+                    clearInterval(messageInterval);
+                }
             }
         }, 3000); // Change message every 3 seconds
     };
