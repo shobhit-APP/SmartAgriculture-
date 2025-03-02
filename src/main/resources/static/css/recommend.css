@@ -2,7 +2,7 @@
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap");
 
 :root {
---primary-color: #0fe669e5;
+ --primary-color: #0fe669e5;
   --primary-dark: #27ae60;
   --secondary-color: #3498db;
 }
@@ -100,7 +100,7 @@ body::before {
 }
 
 .nav-button {
-  background-color: var(--primary-color);
+  background-color:#0fe669e5;;
   color: white;
   padding: 0.75rem 1.5rem;
   border-radius: 12px;
