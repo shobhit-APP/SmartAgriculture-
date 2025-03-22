@@ -72,16 +72,6 @@ public class MarketServices {
 
     // In your Service class
     public List<Crop> findByStateAndUserId(String state, Long userId) {
-        return repository.findByStateAndUserId(state, userId);
+        return repository.findByStateAndUserDetails1UserId(state, userId);
     }
-
-
-//    public Set<String> getCropTypes() {
-//    }
-//    public double getAveragePrice() {
-//        r
-//    }
-//
-//    public Set<String> getCropTypes() {
-//    }
 }

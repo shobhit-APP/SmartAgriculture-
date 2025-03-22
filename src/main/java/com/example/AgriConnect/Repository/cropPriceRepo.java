@@ -16,9 +16,7 @@ import java.util.List;
 @Repository
 public interface cropPriceRepo extends JpaRepository<Crop,Long > {
 
-
-    // In your CropRepository interface
-        List<Crop> findByStateAndUserId(String state, Long userId);
+    List<Crop> findByStateAndUserDetails1UserId(String state, Long userId);
     //    Creating A Custom Method To Find The Market Details for Specific Crop
         List<Crop> findByUserDetails1UserId(Long userId);
 }
