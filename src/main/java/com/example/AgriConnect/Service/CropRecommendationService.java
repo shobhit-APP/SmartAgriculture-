@@ -78,11 +78,6 @@ public class CropRecommendationService {
         return CropRecommendationRepo.findDistinctPredictedCropsByUserId(UserId);
     }
 
-//    public List<CropRecommendation> getRecommendations(String Crop,Long UserId) {
-//       return CropRecommendationRepo.findByUserDetails1UserId(UserId).stream()
-//               .filter(crop->crop.getPredictedCrop().equalsIgnoreCase(Crop))
-//               .collect(Collectors.toList());
-//
 public List<CropRecommendation> getRecommendations(String Crop,Long UserId) {
          return CropRecommendationRepo.findByUserIdAndPredictedCrop(UserId,Crop);
 }

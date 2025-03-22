@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /* This Annotation Is Used To Create RestFull Service An Handles All
    The Request From Client Side To Gain Various Services
@@ -59,18 +60,14 @@ public class CropPriceController {
         return (CsrfToken) request.getAttribute("_csrf");
     }
     @GetMapping("/dashboard")
-    public String getAllMarketDetails(
-            @AuthenticationPrincipal UserPrinciples userPrinciples,
-            Model model,
-            @RequestParam(required = false) String state
-    ) {
+    public String getAllMarketDetails(@AuthenticationPrincipal UserPrinciples userPrinciples, Model model, @RequestParam(required = false) String state) {
         Long userId = userPrinciples.getUserId();
         List<Crop> marketData = Services.GetAllMarketDetailsById(userId);
-
+        Set<String> unique_state = Services.getUniqueState(userId);
         // Handle the case when state is null or empty
         List<Crop> marketData1 = (state != null && !state.isEmpty())
                 ? Services.findByStateAndUserId(state, userId)
-                : Collections.emptyList();
+                : marketData;
 
         if (marketData.isEmpty() && marketData1.isEmpty()) {
             log.error("No Previous Crop Price Prediction Result found for UserId: {}", userId);
@@ -78,8 +75,8 @@ public class CropPriceController {
         }
 
         // Use different attribute names to avoid overriding
+        model.addAttribute("state",unique_state);
         model.addAttribute("allMarketData", marketData);
-        model.addAttribute("stateMarketData", marketData1);
         return "dashboard";
     }
 

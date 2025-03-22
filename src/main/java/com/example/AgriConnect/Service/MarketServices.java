@@ -13,6 +13,7 @@ import org.springframework.web.client.RestTemplate;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 @Service
 public class MarketServices {
@@ -74,4 +75,9 @@ public class MarketServices {
     public List<Crop> findByStateAndUserId(String state, Long userId) {
         return repository.findByStateAndUserDetails1UserId(state, userId);
     }
+
+    public Set<String> getUniqueState(Long userId) {
+        return repository.findDistinctStatesByUserId(userId);
+    }
+
 }
