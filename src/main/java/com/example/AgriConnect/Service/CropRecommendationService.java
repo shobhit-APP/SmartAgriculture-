@@ -16,6 +16,8 @@ import org.springframework.web.client.RestTemplate;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 public class CropRecommendationService {
@@ -71,4 +73,17 @@ public class CropRecommendationService {
     public List<CropRecommendation> GetSavedRecommendCropByUserId(Long UserId) {
         return CropRecommendationRepo.findByUserDetails1UserId(UserId);
     }
+
+    public Set<String> getUniqueCrops(Long UserId) {
+        return CropRecommendationRepo.findDistinctPredictedCropsByUserId(UserId);
+    }
+
+//    public List<CropRecommendation> getRecommendations(String Crop,Long UserId) {
+//       return CropRecommendationRepo.findByUserDetails1UserId(UserId).stream()
+//               .filter(crop->crop.getPredictedCrop().equalsIgnoreCase(Crop))
+//               .collect(Collectors.toList());
+//
+public List<CropRecommendation> getRecommendations(String Crop,Long UserId) {
+         return CropRecommendationRepo.findByUserIdAndPredictedCrop(UserId,Crop);
+}
 }

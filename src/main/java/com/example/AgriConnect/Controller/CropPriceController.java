@@ -3,6 +3,7 @@ package com.example.AgriConnect.Controller;
 import com.example.AgriConnect.Exception.AnyException;
 import com.example.AgriConnect.Model.Crop;
 import com.example.AgriConnect.Model.UserDetails1;
+import com.example.AgriConnect.Model.UserPrinciples;
 import com.example.AgriConnect.Service.MarketServices;
 import com.example.AgriConnect.Service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -10,11 +11,13 @@ import jakarta.servlet.http.HttpSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.web.csrf.CsrfToken;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -49,26 +52,37 @@ public class CropPriceController {
     For any Specific Body
     Let's suppose You Have  Request to Get marketDetails Then You Should Use
     That Annotations To mapped That Service of That Method
-*/
+    */
     @GetMapping("/csrf_token")
     public CsrfToken getCsrfToken(HttpServletRequest request)
     {
         return (CsrfToken) request.getAttribute("_csrf");
     }
-    //
-    @GetMapping("/dashboard/{UserId}")
-    public String  GetAllMarketDetails(@PathVariable("UserId") Long UserId, Model model)
-    {
+    @GetMapping("/dashboard")
+    public String getAllMarketDetails(
+            @AuthenticationPrincipal UserPrinciples userPrinciples,
+            Model model,
+            @RequestParam(required = false) String state
+    ) {
+        Long userId = userPrinciples.getUserId();
+        List<Crop> marketData = Services.GetAllMarketDetailsById(userId);
 
-            List<Crop> cropList = Services.GetAllMarketDetailsById(UserId);
-            if(cropList.isEmpty())
-            {
-                log.error("There is No Previous Crop Price Prediction Result with This UserId {}" ,  UserId);
-                throw new AnyException("Sorry!, There is No Previous Crop Price Prediction Result with This UserId : " + UserId);
-            }
-            model.addAttribute("cropList",cropList);
-             return "dashboard";
+        // Handle the case when state is null or empty
+        List<Crop> marketData1 = (state != null && !state.isEmpty())
+                ? Services.findByStateAndUserId(state, userId)
+                : Collections.emptyList();
+
+        if (marketData.isEmpty() && marketData1.isEmpty()) {
+            log.error("No Previous Crop Price Prediction Result found for UserId: {}", userId);
+            throw new AnyException("Sorry! No Previous Crop Price Prediction Result found for UserId: " + userId);
+        }
+
+        // Use different attribute names to avoid overriding
+        model.addAttribute("allMarketData", marketData);
+        model.addAttribute("stateMarketData", marketData1);
+        return "dashboard";
     }
+
     @GetMapping("/predict")
     public String PricePredictionModel()
     {

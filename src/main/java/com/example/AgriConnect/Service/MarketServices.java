@@ -2,13 +2,10 @@ package com.example.AgriConnect.Service;
 
 import com.example.AgriConnect.Exception.AnyException;
 import com.example.AgriConnect.Model.Crop;
-import com.example.AgriConnect.Model.UserDetails1;
-import com.example.AgriConnect.Repository.Repo;
-import com.example.AgriConnect.Repository.UserRepo;
+import com.example.AgriConnect.Repository.cropPriceRepo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.ResourceAccessException;
@@ -23,7 +20,7 @@ public class MarketServices {
     private final String flaskUrl ="https://pricepredectionmodel.onrender.com/predict";
 
     @Autowired
-    private Repo repository;
+    private cropPriceRepo repository;
 
     public Map<String, Object> getPrediction(Crop crop) {
         RestTemplate restTemplate = new RestTemplate();
@@ -72,4 +69,19 @@ public class MarketServices {
     public List<Crop> GetAllMarketDetailsById(Long UserId) {
        return  repository.findByUserDetails1UserId(UserId);
     }
+
+    // In your Service class
+    public List<Crop> findByStateAndUserId(String state, Long userId) {
+        return repository.findByStateAndUserId(state, userId);
+    }
+
+
+//    public Set<String> getCropTypes() {
+//    }
+//    public double getAveragePrice() {
+//        r
+//    }
+//
+//    public Set<String> getCropTypes() {
+//    }
 }

@@ -34,6 +34,10 @@ public class UserPrinciples implements UserDetails {
     {
         return User.getContactNumber();
     }
+    public Long getUserId()
+    {
+        return User.getUserId();
+    }
     @Override
     public boolean isAccountNonExpired() {
         return true;

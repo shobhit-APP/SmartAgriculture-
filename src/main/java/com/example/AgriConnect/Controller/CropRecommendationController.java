@@ -4,18 +4,21 @@ import com.example.AgriConnect.Exception.AnyException;
 import com.example.AgriConnect.Model.Crop;
 import com.example.AgriConnect.Model.CropRecommendation;
 import com.example.AgriConnect.Model.UserDetails1;
+import com.example.AgriConnect.Model.UserPrinciples;
 import com.example.AgriConnect.Service.CropRecommendationService;
 import com.example.AgriConnect.Service.UserService;
 import jakarta.servlet.http.HttpSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 @Controller
 @RequestMapping("/api")
@@ -68,15 +71,33 @@ public class CropRecommendationController {
         model.addAttribute("recommendedResult",RecommendationResult);
         return "recommendedResult";
     }
-    @GetMapping("/dashboard1/{UserId}")
-    public String GetSavedRecommendation(@PathVariable("UserId") Long UserId, Model model) {
-       List<CropRecommendation> recommendationList=cropRecommendationService.GetSavedRecommendCropByUserId(UserId);
-        if(recommendationList.isEmpty())
-        {
-            log.error("There is No Previous Crop Price Prediction Result with This UserId {}" ,  UserId);
-            throw new AnyException("Sorry!, There is No Previous Crop Price Prediction Result with This UserId : " + UserId);
+    @GetMapping("/dashboard1")
+    public String getSavedRecommendation(
+            @RequestParam(required = false) String crop,
+            @AuthenticationPrincipal UserPrinciples userPrinciples,
+            Model model) {
+        Long userId = userPrinciples.getUserId();
+        List<CropRecommendation> recommendationList = cropRecommendationService.GetSavedRecommendCropByUserId(userId);
+        Set<String> uniqueCrops = cropRecommendationService.getUniqueCrops(userId);
+        List<CropRecommendation> displayedRecommendations;
+
+        // Handle the case when crop is null or empty
+        displayedRecommendations = (crop != null && !crop.isEmpty())
+                ? cropRecommendationService.getRecommendations(crop, userId)
+                : recommendationList;
+
+        if (displayedRecommendations.isEmpty()) {
+            if (crop != null && !crop.isEmpty()) {
+                log.warn("No recommendations found for crop: {} for user ID: {}", crop, userId);
+                model.addAttribute("message", "No recommendations found for crop: " + crop);
+            } else {
+                log.error("No previous crop prediction results for user ID: {}", userId);
+                model.addAttribute("message", "Sorry! No previous crop prediction results found for your user ID: " + userId);
+            }
         }
-        model.addAttribute("recommendationList",recommendationList);
+
+        model.addAttribute("recommendationList", displayedRecommendations);
+        model.addAttribute("uniqueCrops", uniqueCrops);
         return "dashboard1";
     }
 }
