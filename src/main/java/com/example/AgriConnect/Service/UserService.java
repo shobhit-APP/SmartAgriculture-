@@ -25,13 +25,13 @@ public class UserService {
 
         // Validate email existence
         String email = registrationDto.getUserEmail();
-        if (email != null && userRepo.existsByemail(email)) {
+        if (email != null && userRepo.existsByUserEmail(email)) {
             throw new AnyException("Email is already registered.");
         }
 
         // Validate phone number existence
         String phoneNumber = registrationDto.getContactNumber();
-        if (phoneNumber != null && userRepo.existsByPhoneNumber(phoneNumber)) {
+        if (phoneNumber != null && userRepo.existsByContactNumber(phoneNumber)) {
             throw new AnyException("Phone number is already registered.");
         }
 
