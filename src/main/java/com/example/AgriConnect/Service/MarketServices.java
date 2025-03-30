@@ -18,7 +18,7 @@ import java.util.Set;
 @Service
 public class MarketServices {
     private static final Logger log = LoggerFactory.getLogger(MarketServices.class);
-    private final String flaskUrl ="https://pricepredectionmodel.onrender.com/predict";
+    private final String flaskUrl ="http://127.0.0.1:5000/predict";
 
     @Autowired
     private cropPriceRepo repository;

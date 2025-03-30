@@ -1,43 +1,216 @@
+<!--<!DOCTYPE html>-->
+<!--<html lang="en">-->
+<!--<head>-->
+<!--    <meta charset="UTF-8">-->
+<!--    <meta name="viewport" content="width=device-width, initial-scale=1.0">-->
+<!--    <title>Logout - Smart Agriculture Advisor</title>-->
+<!--    &lt;!&ndash; Bootstrap CSS &ndash;&gt;-->
+<!--    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">-->
+<!--    &lt;!&ndash; Tailwind CSS &ndash;&gt;-->
+<!--    <link rel="stylesheet" href="../static/css/logout.css">-->
+<!--    <script src="https://cdn.tailwindcss.com"></script>-->
+<!--</head>-->
+<!--<body>-->
+<!--<div>-->
+<!--    <h1>Logged Out</h1>-->
+<!--    <p>You have been logged out successfully.</p>-->
+<!--    <div>-->
+<!--        <a href="/api/login" class="link">Log In</a>-->
+<!--        <a href="/api/Agriconnect" class="link">Home</a>-->
+<!--    </div>-->
+<!--</div>-->
+<!--<script>-->
+<!--    // Clear the history state to prevent navigating back to the protected pages after logout-->
+<!--    window.history.pushState(null, null, window.location.href);-->
+<!--    window.addEventListener('popstate', function(event) {-->
+<!--        window.history.pushState(null, null, window.location.href);-->
+<!--    });-->
+<!--        let secondsLeft = [[${secondsLeft}]];-->
+<!--        const timerElement = document.querySelector('p');-->
+
+<!--        function updateTimer() {-->
+<!--            timerElement.textContent = `Redirecting to login page in  ${secondsLeft} seconds...`;-->
+<!--            if (secondsLeft <= 0) {-->
+<!--                window.location.href = '/api/login';-->
+<!--            } else {-->
+<!--                secondsLeft&#45;&#45;;-->
+<!--                setTimeout(updateTimer, 2000);-->
+<!--            }-->
+<!--        }-->
+<!--        updateTimer();-->
+<!--</script>-->
+<!--</body>-->
+<!--</html>-->
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Logout - Smart Agriculture Advisor</title>
+    <title>Logged Out - Smart Agriculture Advisor</title>
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Tailwind CSS -->
-    <link rel="stylesheet" href="../static/css/logout.css">
-    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts - Poppins -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: "Poppins", sans-serif;
+            background: linear-gradient(135deg, #3a8c3f 0%, #70a847 25%, #f9c74f 50%, #5e9c60 75%, #257d25 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            color: white;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.6);
+            text-align: center;
+            overflow: hidden;
+            position: relative;
+        }
+
+        body:before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('/api/placeholder/800/600') no-repeat center center;
+            background-size: cover;
+            opacity: 0.15;
+            z-index: -1;
+        }
+
+        .logout-container {
+            background-color: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(5px);
+            padding: 40px;
+            border-radius: 15px;
+            max-width: 500px;
+            width: 100%;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+            position: relative;
+            z-index: 10;
+        }
+
+        h1, p {
+            animation: fadeIn 1s ease-in-out, slideIn 1.5s ease-in-out;
+        }
+
+        h1 {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            color: #ffffff;
+            font-weight: 600;
+        }
+
+        p {
+            font-size: 1.5rem;
+            margin-bottom: 30px;
+            color: #ffffff;
+        }
+
+        .links-container {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .link {
+            display: inline-block;
+            padding: 12px 28px;
+            background-color: #f3752b;
+            color: white;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+        }
+
+        .link:hover {
+            background-color: #e35f16;
+            transform: translateY(-3px);
+            box-shadow: 0 7px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .link:first-child {
+            background-color: #43a047;
+        }
+
+        .link:first-child:hover {
+            background-color: #2e7d32;
+        }
+
+        .decoration {
+            position: absolute;
+            font-size: 40px;
+            z-index: 1;
+            animation: float 6s infinite ease-in-out;
+        }
+
+        .deco-1 { top: 10%; left: 10%; animation-delay: 0s; }
+        .deco-2 { top: 20%; right: 15%; animation-delay: 1s; }
+        .deco-3 { bottom: 15%; left: 15%; animation-delay: 2s; }
+        .deco-4 { bottom: 20%; right: 10%; animation-delay: 3s; }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-15px); }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes slideIn {
+            from { transform: translateY(-20px); }
+            to { transform: translateY(0); }
+        }
+    </style>
 </head>
 <body>
-<div>
+<div class="decoration deco-1">🌾</div>
+<div class="decoration deco-2">🌱</div>
+<div class="decoration deco-3">🍃</div>
+<div class="decoration deco-4">🌿</div>
+
+<div class="logout-container">
     <h1>Logged Out</h1>
-    <p>You have been logged out successfully.</p>
-    <div>
+    <p id="message">You have been logged out successfully.</p>
+    <div class="links-container">
         <a href="/api/login" class="link">Log In</a>
         <a href="/api/Agriconnect" class="link">Home</a>
     </div>
 </div>
+
 <script>
-    // Clear the history state to prevent navigating back to the protected pages after logout
+    // Clear the history state to prevent navigating back to protected pages
     window.history.pushState(null, null, window.location.href);
     window.addEventListener('popstate', function(event) {
         window.history.pushState(null, null, window.location.href);
     });
-        let secondsLeft = [[${secondsLeft}]];
-        const timerElement = document.querySelector('p');
 
-        function updateTimer() {
-            timerElement.textContent = `Redirecting to login page in  ${secondsLeft} seconds...`;
-            if (secondsLeft <= 0) {
-                window.location.href = '/api/login';
-            } else {
-                secondsLeft--;
-                setTimeout(updateTimer, 2000);
-            }
+    // Redirect countdown timer
+    let secondsLeft = 10; // Default value if not provided by server
+    const messageElement = document.getElementById('message');
+    const originalMessage = messageElement.textContent;
+
+    function updateTimer() {
+        if (secondsLeft <= 0) {
+            window.location.href = '/api/login';
+        } else {
+            messageElement.textContent = `${originalMessage} Redirecting to login page in ${secondsLeft} seconds...`;
+            secondsLeft--;
+            setTimeout(updateTimer, 1000);
         }
-        updateTimer();
+    }
+
+    // Start countdown after 3 seconds to allow user to read logout message
+    setTimeout(updateTimer, 3000);
 </script>
 </body>
 </html>

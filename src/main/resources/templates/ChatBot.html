@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AgriConnect ChatBot</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../static/css/chat.css">
+</head>
+<body>
+<div class="container">
+    <header class="header">
+        <h1><i class="fas fa-seedling"></i> AgriConnect ChatBot</h1>
+        <p>Your Agricultural Assistant</p>
+    </header>
+    <main class="chat-box">
+        <section id="messages" class="messages">
+            <div class="message bot">Hello! I'm your AgriConnect assistant. How can I help you today with your farming queries?</div>
+            <div class="typing-indicator">
+                <span></span><span></span><span></span>
+            </div>
+        </section>
+    </main>
+    <div class="faq-container">
+        <button class="faq-chip" id="features-btn">Features of AgriConnect</button>
+        <button class="faq-chip" id="how-to-use-btn">How to Use AgriConnect</button>
+        <button class="faq-chip" id="how-it-helps-btn">How AgriConnect Helps</button>
+        <select class="language-select" id="language-select" aria-label="Select Language">
+            <option value="en">English/अंग्रेज़ी</option>
+            <option value="hi">Hindi/हिंदी</option>
+            <option value="bn">Bengali/বাংলা</option>
+            <option value="te">Telugu/తెలుగు</option>
+            <option value="mr">Marathi/मराठी</option>
+            <option value="ta">Tamil/தமிழ்</option>
+            <option value="gu">Gujarati/ગુજરાતી</option>
+            <option value="kn">Kannada/ಕನ್ನಡ</option>
+            <option value="ml">Malayalam/മലയാളം</option>
+            <option value="pa">Punjabi/ਪੰਜਾਬੀ</option>
+            <option value="or">Odia/ଓଡ଼ିଆ</option>
+            <option value="as">Assamese/অসমীয়া</option>
+        </select>
+    </div>
+    <form id="chat-form" class="chat-form">
+        <label for="user-message"></label><input id="user-message" class="user-input" type="text" placeholder="Type your message...">
+        <button type="submit" class="send-btn"><i class="fas fa-paper-plane"></i></button>
+    </form>
+</div>
+<script src="/static/javascript/chatbot.js"></script>
+</body>
+</html>

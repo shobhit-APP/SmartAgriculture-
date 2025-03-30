@@ -34,7 +34,7 @@ public class SecurityConfiguration {
                                 "/api/Agriconnect.com",
                                 "/api/Agriconnect",
                                 "/api/get-api-key",
-                                "/api/AgriconnectChatBot",
+                                "/api/ChatBot",
                                 "/api/register",
                                 "/api/sucessfullyregister",
                                 "/api/terms",

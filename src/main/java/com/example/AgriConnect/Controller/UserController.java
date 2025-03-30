@@ -74,20 +74,19 @@ public class UserController {
             model.addAttribute("UserId", userId); // Add UserId to model for dynamic links
             return "Option"; // Thymeleaf template for options page
     }
+
     // Register a new user
     @PostMapping("/register")
-    public String register(@ModelAttribute UserRegistrationDto registrationDto, Model model ) {
-        //Register The User  with Provided Details By The user and save It In The Database
-        UserDetails1 userDetails1=userService.register(registrationDto);
-
-        /*
+    @ResponseBody
+    public ResponseEntity<String> register(@ModelAttribute UserRegistrationDto registrationDto) {
+        //Register The User with Provided Details By The user and save It In The Database
+        UserDetails1 userDetails1 = userService.register(registrationDto);
+              /*
            Set The UserId in the session And Send To CropPrice and Crop recommendation Controller
            To set The Userid In The in Both Entity in The DataBase To Build The RelationShip
-           To Get The Historical data of Their own To Not Others For Data Privacy
-
-         */
-        model.addAttribute("message", "User Registered Successfully");
-        return "sucessfullyregister";  // Redirect to a success page or back to the registration page
+           To Get The Historical data of Their own To Not Others For Data Privacy   */
+        // Return just OK response
+        return ResponseEntity.ok("User registered successfully");
     }
         // Update user details
     @PutMapping("/UpdateUser/{UserId}")
@@ -110,9 +109,9 @@ public class UserController {
         request.getCookies();
         return "logout";
     }
-    @GetMapping("/AgriconnectChatBot")
+    @GetMapping("/ChatBot")
     public  String chatBoat()
     {
-        return "AgriconnectChatBot";
+        return "ChatBot";
     }
 }
