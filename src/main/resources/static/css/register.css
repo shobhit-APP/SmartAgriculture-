@@ -167,4 +167,17 @@
                 width: 90%;
                 padding: 12px 20px;
             }
+            #errorMessages {
+              display: none; /* Container ko hide karta hai */
+              position: relative; /* Container ko relative position deta hai */
+              top: 50%; /* Container ko screen ke top se 50% distance par set karta hai */
+              left: 50%; /* Container ko screen ke left se 50% distance par set karta hai */
+              transform: translate(-50%, -50%); /* Container ko center align karta hai */
+              background-color: #f44336; /* Container ko red color deta hai */
+              color: #fff; /* Container ke text ko white color deta hai */
+              padding: 20px; /* Container ke padding ko 20px set karta hai */
+              border-radius: 5px; /* Container ke corners ko rounded set karta hai */
+              box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); /* Container ke shadow ko set karta hai */
+            }
+
         }
