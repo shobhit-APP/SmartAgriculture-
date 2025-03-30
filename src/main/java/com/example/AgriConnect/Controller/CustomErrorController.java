@@ -63,6 +63,10 @@ public class CustomErrorController implements ErrorController {
                     model.addAttribute("status", "Error 503");
                     model.addAttribute("message", "Service Unavailable");
                     break;
+                case 400:
+                    model.addAttribute("status", "Error 400");
+                    model.addAttribute("message", "Some Thing Went wrong Try Again");
+                    break;
                 default:
                     model.addAttribute("status", "Error");
                     model.addAttribute("message", "An unexpected error occurred.");

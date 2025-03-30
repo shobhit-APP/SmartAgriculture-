@@ -9,13 +9,20 @@ import jakarta.servlet.http.HttpSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.MethodParameter;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.HashMap;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/api")
@@ -75,21 +82,32 @@ public class UserController {
             model.addAttribute("UserId", userId); // Add UserId to model for dynamic links
             return "Option"; // Thymeleaf template for options page
     }
-
-    // Register a new user
     @PostMapping("/register")
     @ResponseBody
-    public ResponseEntity<String> register(@Validated  @ModelAttribute UserRegistrationDto registrationDto) {
-        //Register The User with Provided Details By The user and save It In The Database
-        UserDetails1 userDetails1 = userService.register(registrationDto);
-              /*
-           Set The UserId in the session And Send To CropPrice and Crop recommendation Controller
-           To set The Userid In The in Both Entity in The DataBase To Build The RelationShip
-           To Get The Historical data of Their own To Not Others For Data Privacy   */
-        // Return just OK response
-        return ResponseEntity.ok("User registered successfully");
+    public ResponseEntity<?> register(@Validated @ModelAttribute UserRegistrationDto registrationDto, BindingResult result) {
+        if (result.hasErrors()) {
+            // Collect validation errors
+            Map<String, String> errors = new HashMap<>();
+            for (FieldError error : result.getFieldErrors()) {
+                errors.put(error.getField(), error.getDefaultMessage());
+            }
+
+            // ✅ Return JSON response with 400 Bad Request status
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body(Map.of("status", "Validation Error", "errors", errors));
+        }
+
+        try {
+            userService.register(registrationDto);
+            return ResponseEntity.ok(Map.of("status", "success", "message", "User registered successfully"));
+
+        } catch (Exception e) {
+            // ✅ Return JSON response with 500 Internal Server Error status
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(Map.of("status", "error", "message", "Something went wrong", "details", e.getMessage()));
+        }
     }
-        // Update user details
+    // Update user details
     @PutMapping("/UpdateUser/{UserId}")
     public ResponseEntity<String> updateUser(@PathVariable Long UserId, @RequestBody UserDetails1 userDetails) {
         UserDetails1 updatedUserDetails = userService.updateUser(UserId, userDetails);
