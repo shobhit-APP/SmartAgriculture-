@@ -19,17 +19,17 @@ public class UserDetails1 {
     @Column(name = "UserId")
     private Long userId;
 
-    @Column(name = "username")
+    @Column(name = "username", nullable = false,unique = true)
     private String username;
 
-    @Column(name = "UserPassword")
+    @Column(name = "UserPassword",nullable = false)
     private String userPassword;
 
     @Column(name = "UserEmail")
     private String userEmail;
 
-    @Column(name = "ContactNumber")
-    private Long contactNumber;
+    @Column(name = "ContactNumber",nullable = false)
+    private String contactNumber;
 
     @OneToMany(mappedBy = "userDetails1",cascade = CascadeType.ALL)
     @ToString.Exclude

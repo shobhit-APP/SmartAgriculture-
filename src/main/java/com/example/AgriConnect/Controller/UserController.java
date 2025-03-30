@@ -14,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
@@ -78,7 +79,7 @@ public class UserController {
     // Register a new user
     @PostMapping("/register")
     @ResponseBody
-    public ResponseEntity<String> register(@ModelAttribute UserRegistrationDto registrationDto) {
+    public ResponseEntity<String> register(@Validated  @ModelAttribute UserRegistrationDto registrationDto) {
         //Register The User with Provided Details By The user and save It In The Database
         UserDetails1 userDetails1 = userService.register(registrationDto);
               /*

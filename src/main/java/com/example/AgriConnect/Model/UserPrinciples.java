@@ -30,7 +30,7 @@ public class UserPrinciples implements UserDetails {
     {
         return User.getUserEmail();
     }
-    public Long getContactNumber()
+    public String getContactNumber()
     {
         return User.getContactNumber();
     }
