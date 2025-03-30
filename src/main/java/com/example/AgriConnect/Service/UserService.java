@@ -1,6 +1,7 @@
 
 package com.example.AgriConnect.Service;
 
+import com.example.AgriConnect.Exception.AnyException;
 import com.example.AgriConnect.Model.UserDetails1;
 import com.example.AgriConnect.Model.UserRegistrationDto;
 import com.example.AgriConnect.Repository.UserRepo;
@@ -17,16 +18,34 @@ public class UserService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    // Register a new user
     public UserDetails1 register(UserRegistrationDto registrationDto) {
+        if (registrationDto == null) {
+            throw new AnyException("Registration details cannot be null.");
+        }
+
+        // Validate email existence
+        String email = registrationDto.getUserEmail();
+        if (email != null && userRepo.existsByemail(email)) {
+            throw new AnyException("Email is already registered.");
+        }
+
+        // Validate phone number existence
+        String phoneNumber = registrationDto.getContactNumber();
+        if (phoneNumber != null && userRepo.existsByPhoneNumber(phoneNumber)) {
+            throw new AnyException("Phone number is already registered.");
+        }
+
+        // Create and populate UserDetails1 entity
         UserDetails1 userDetails = new UserDetails1();
         userDetails.setUsername(registrationDto.getUsername());
         userDetails.setUserPassword(passwordEncoder.encode(registrationDto.getUserPassword()));
-        userDetails.setUserEmail(registrationDto.getUserEmail());
-        userDetails.setContactNumber(registrationDto.getContactNumber());
-        userRepo.save(userDetails);
-        return userDetails;
+        userDetails.setUserEmail(email);
+        userDetails.setContactNumber(phoneNumber);
+
+        // Save user details in the database
+        return userRepo.save(userDetails);
     }
+
 
     // Update user details
     public UserDetails1 updateUser(Long userId, UserDetails1 userDetails) {

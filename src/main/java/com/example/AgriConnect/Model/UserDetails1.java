@@ -19,16 +19,16 @@ public class UserDetails1 {
     @Column(name = "UserId")
     private Long userId;
 
-    @Column(name = "username", nullable = false,unique = true)
+    @Column(name = "username", nullable = false, unique = true)
     private String username;
 
     @Column(name = "UserPassword",nullable = false)
     private String userPassword;
 
-    @Column(name = "UserEmail")
+    @Column(name = "UserEmail",unique = true,nullable = false)
     private String userEmail;
 
-    @Column(name = "ContactNumber",nullable = false)
+    @Column(name = "ContactNumber",nullable = false,unique = true)
     private String contactNumber;
 
     @OneToMany(mappedBy = "userDetails1",cascade = CascadeType.ALL)
