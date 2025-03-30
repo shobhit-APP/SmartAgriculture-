@@ -100,16 +100,16 @@ public class CropPriceController {
         Long sessionId=(Long) session.getAttribute("UserId");
         if(sessionId==null)
         {
-                log.error("User ID not found in the session. Possible session timeout or invalid session or SessionID Is Not set.");
-                throw new AnyException("Sorry!, User session has expired or is invalid. Please log in again.");
+            log.error("User ID not found in the session. Possible session timeout or invalid session or SessionID Is Not set.");
+            throw new AnyException("Sorry!, User session has expired or is invalid. Please log in again.");
         }
         try{
             UserDetails1 userDetails1=userService.findByUserId(sessionId);
             if(userDetails1==null)
             {
 
-                    log.error("User details not found for UserId {}. Possible database issue or incorrect UserId.", sessionId);
-                    throw new AnyException("Sorry, we were unable to find your user details. Please verify your UserId or try again later.");
+                log.error("User details not found for UserId {}. Possible database issue or incorrect UserId.", sessionId);
+                throw new AnyException("Sorry, we were unable to find your user details. Please verify your UserId or try again later.");
 
             }
             crop.setUserDetails1(userDetails1);

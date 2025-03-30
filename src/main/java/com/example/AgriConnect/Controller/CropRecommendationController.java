@@ -89,12 +89,13 @@ public class CropRecommendationController {
         if (displayedRecommendations.isEmpty()) {
             if (crop != null && !crop.isEmpty()) {
                 log.warn("No recommendations found for crop: {} for user ID: {}", crop, userId);
-                model.addAttribute("message", "No recommendations found for crop: " + crop);
+                throw new AnyException("Sorry! No Previous Crop Price Prediction Result found for UserId: " + userId);
             } else {
                 log.error("No previous crop prediction results for user ID: {}", userId);
-                model.addAttribute("message", "Sorry! No previous crop prediction results found for your user ID: " + userId);
+                throw new AnyException("Sorry! No previous crop prediction results found for your user ID: " + userId);
             }
         }
+
 
         model.addAttribute("recommendationList", displayedRecommendations);
         model.addAttribute("uniqueCrops", uniqueCrops);
