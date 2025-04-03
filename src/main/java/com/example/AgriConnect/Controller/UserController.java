@@ -6,6 +6,7 @@ import com.example.AgriConnect.Model.UserRegistrationDto;
 import com.example.AgriConnect.Service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
+import jakarta.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -84,7 +85,7 @@ public class UserController {
     }
     @PostMapping("/register")
     @ResponseBody
-    public ResponseEntity<?> register(@Validated @ModelAttribute UserRegistrationDto registrationDto, BindingResult result) {
+    public ResponseEntity<?> register(@Valid @ModelAttribute UserRegistrationDto registrationDto, BindingResult result) {
         if (result.hasErrors()) {
             // Collect validation errors
             Map<String, String> errors = new HashMap<>();

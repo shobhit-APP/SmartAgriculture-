@@ -5,6 +5,7 @@ import com.example.AgriConnect.Exception.AnyException;
 import com.example.AgriConnect.Model.UserDetails1;
 import com.example.AgriConnect.Model.UserRegistrationDto;
 import com.example.AgriConnect.Repository.UserRepo;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -18,7 +19,7 @@ public class UserService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    public UserDetails1 register(UserRegistrationDto registrationDto) {
+    public void register(@Valid UserRegistrationDto registrationDto) {
         if (registrationDto == null) {
             throw new AnyException("Registration details cannot be null.");
         }
@@ -43,7 +44,7 @@ public class UserService {
         userDetails.setContactNumber(phoneNumber);
 
         // Save user details in the database
-        return userRepo.save(userDetails);
+        userRepo.save(userDetails);
     }
 
 
