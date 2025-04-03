@@ -52,6 +52,19 @@ public class Crop {
     @JsonProperty("suggested_price")
     private Double suggestedPrice;
 
+    @Column(name = "suggested_price_second")
+    @JsonProperty("suggested_price_second")
+    private Double suggestedPriceSecond;
+
+    @Column(name = "suggested_price_third")
+    @JsonProperty("suggested_price_third")
+    private Double suggestedPriceThird;
+
+
+    @Column(name = "best_price")
+    @JsonProperty("best_price")
+    private Double best_price;
+
     @ManyToOne
     @JoinColumn(name = "UserId" ,referencedColumnName = "UserId")
     @ToString.Exclude

@@ -88,7 +88,10 @@
                     <th>Date</th>
                     <th>Min Price</th>
                     <th>Max Price</th>
-                    <th>Suggested</th>
+                    <th>XGBoost Model Price</th>
+                    <th>Neural Network Model Price</th>
+                    <th>Ensemble Model Price</th>
+                    <th>Best Predicted Price</th>
                 </tr>
                 </thead>
                 <tbody id="marketTableBody">
@@ -102,6 +105,9 @@
                     <td class="text-green-600 font-semibold" th:text="'₹' + ${crop.minPrice}"></td>
                     <td class="text-green-600 font-semibold" th:text="'₹' + ${crop.maxPrice}"></td>
                     <td class="text-blue-600 font-semibold" th:text="'₹' + ${crop.suggestedPrice}"></td>
+                    <td class="text-blue-600 font-semibold" th:text="'₹' + ${crop.suggested_price_second}"></td>
+                    <td class="text-blue-600 font-semibold" th:text="'₹' + ${crop.suggested_price_third}"></td>
+                    <td class="text-blue-600 font-semibold" th:text="'₹' + ${crop.best_price}"></td>
                 </tr>
                 </tbody>
             </table>

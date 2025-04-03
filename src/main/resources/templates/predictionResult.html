@@ -1,17 +1,47 @@
+
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Prediction Result</title>
     <link rel="stylesheet" href="../static/css/result.css">
+    <link rel="stylesheet" href="../static/css/tablestyle.css">
+
 </head>
 <body>
 <div class="container">
     <h1>Prediction Result</h1>
     <p th:text="${message}"></p>
+
     <div class="result">
-        <h2>Predicted Price In Rupees</h2>
-        <p th:text="${predictionResult['predicted_price_xgb']}"></p>
+        <h2>Predicted Prices (in Rupees)</h2>
+        <table border="1">
+            <thead>
+            <tr>
+                <th>Prediction Model</th>
+                <th>Predicted Price</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>XGBoost Model</td>
+                <td th:text="${predictionResult['predicted_price_xgb']}"></td>
+            </tr>
+            <tr>
+                <td>Neural Network Model</td>
+                <td th:text="${predictionResult['predicted_price_nn']}"></td>
+            </tr>
+            <tr>
+                <td>Ensemble Model</td>
+                <td th:text="${predictionResult['predicted_price_ensemble']}"></td>
+            </tr>
+            </tbody>
+        </table>
+        <h2>Best Predicted Price</h2>
+        <p>
+            <span th:text="${predictionResult['BEST']}"></span> ₹
+        </p>
     </div>
+
     <a href="/api/Agriconnect" class="btn">Back To Home</a>
 </div>
 <script src="/static/javascript/result.js"></script>

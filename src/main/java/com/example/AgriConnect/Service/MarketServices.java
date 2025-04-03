@@ -37,10 +37,25 @@ public class MarketServices {
         Map<String, Object> response;
         try {
             response = restTemplate.postForObject(flaskUrl, requestMap, Map.class);
-            if (response != null && response.containsKey("predicted_price_xgb")) {
-                crop.setSuggestedPrice((Double) response.get("predicted_price_xgb"));
+            if (response != null) {
+                if (response.containsKey("predicted_price_ensemble")) {
+                    crop.setSuggestedPriceSecond((Double) response.get("predicted_price_ensemble"));
+                }
+                if (response.containsKey("predicted_price_nn")) {
+                    crop.setSuggestedPriceThird((Double) response.get("predicted_price_nn"));
+                }
+                if (response.containsKey("predicted_price_xgb")) {
+                    crop.setSuggestedPrice((Double) response.get("predicted_price_xgb"));
+                }
 
-                // Logging the fields to check values
+                // Add these values back to the response map
+                response.put("suggested_price_first", crop.getSuggestedPriceSecond());
+                response.put("suggested_price_second", crop.getSuggestedPriceThird());
+                response.put("suggested_price_third", crop.getSuggestedPrice());
+                //Calculating BEST
+                double best=Math.min(crop.getSuggestedPrice(),Math.min(crop.getSuggestedPriceSecond(),crop.getSuggestedPriceThird()));
+                response.put("BEST",best);
+            // Logging the fields to check values
                 log.info("State: {}", crop.getState());
                 log.info("District: {}", crop.getDistrict());
                 log.info("Market: {}", crop.getMarket());
@@ -49,7 +64,7 @@ public class MarketServices {
                 log.info("Min Price: {}", crop.getMinPrice());
                 log.info("Max Price: {}", crop.getMaxPrice());
                 log.info("Suggested Price: {}", crop.getSuggestedPrice());
-
+                crop.setBest_price(best);
                 repository.save(crop);
             }
         } catch (ResourceAccessException e) {

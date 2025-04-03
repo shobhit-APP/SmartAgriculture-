@@ -123,7 +123,7 @@ public class CropPriceController {
         }
 
         Map<String,Object> PredictionResult=Services.getPrediction(crop);
-        model.addAttribute("message","Your Input Submitted Successfully wait for Prediction");
+        model.addAttribute("message", "Great! We've analyzed multiple models to give you the best predicted price for your crop.");
         model.addAttribute("predictionResult",PredictionResult);
         return "predictionResult";
 
