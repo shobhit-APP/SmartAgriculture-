@@ -53,7 +53,7 @@ public class MarketServices {
                 response.put("suggested_price_second", crop.getSuggestedPriceThird());
                 response.put("suggested_price_third", crop.getSuggestedPrice());
                 //Calculating BEST
-                double best=Math.min(crop.getSuggestedPrice(),Math.min(crop.getSuggestedPriceSecond(),crop.getSuggestedPriceThird()));
+                double best=Math.max(crop.getSuggestedPrice(),Math.min(crop.getSuggestedPriceSecond(),crop.getSuggestedPriceThird()));
                 response.put("BEST",best);
             // Logging the fields to check values
                 log.info("State: {}", crop.getState());
