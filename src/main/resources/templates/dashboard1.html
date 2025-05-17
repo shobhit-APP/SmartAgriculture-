@@ -79,6 +79,9 @@
                     <th>Soil pH</th>
                     <th>Rainfall (mm)</th>
                     <th>Predicted Crop</th>
+                    <th>Predicted Crop In Hindi</th>
+                    <th>Predicted English Description</th>
+                    <th>Predicted Hindi Description</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -93,6 +96,9 @@
                     <td th:text="${recommendation.ph}"></td>
                     <td th:text="${recommendation.rainfall}"></td>
                     <td th:text="${recommendation.PredictedCrop}"></td>
+                    <td th:text="${recommendation.predictedCropHindi}"></td>
+                    <td th:text="${recommendation.englishDescription}"></td>
+                    <td th:text="${recommendation.hindiDescription}"></td>
                 </tr>
                 </tbody>
             </table>

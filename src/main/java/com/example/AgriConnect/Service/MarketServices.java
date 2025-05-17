@@ -18,7 +18,7 @@ import java.util.Set;
 @Service
 public class MarketServices {
     private static final Logger log = LoggerFactory.getLogger(MarketServices.class);
-    private final String flaskUrl ="http://127.0.0.1:5000/predict";
+    private final String flaskUrl ="http://159.65.158.161:5000/predict";
 
     @Autowired
     private cropPriceRepo repository;
@@ -53,7 +53,7 @@ public class MarketServices {
                 response.put("suggested_price_second", crop.getSuggestedPriceThird());
                 response.put("suggested_price_third", crop.getSuggestedPrice());
                 //Calculating BEST
-                double best=Math.max(crop.getSuggestedPrice(),Math.min(crop.getSuggestedPriceSecond(),crop.getSuggestedPriceThird()));
+                double best=Math.max(crop.getSuggestedPrice(),Math.max(crop.getSuggestedPriceSecond(),crop.getSuggestedPriceThird()));
                 response.put("BEST",best);
             // Logging the fields to check values
                 log.info("State: {}", crop.getState());
