@@ -1,26 +1,20 @@
-# Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
-# More GitHub Actions for Azure: https://github.com/Azure/actions
-
-name: Build and deploy JAR app to Azure Web App - SmartAgricultureAdvisior
+name: Build and deploy JAR app to DigitalOcean Droplet
 
 on:
   push:
     branches:
-      - main
+      - master
   workflow_dispatch:
 
 env:
-  DB_URL: ${{ secrets.DB_URL }}
-  DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
-  API_KEY: ${{ secrets.API_KEY }}
-  SECURITY_PASSWORD: ${{ secrets.SECURITY_PASSWORD }}
+  DB_DRIVER_CLASS_NAME: com.mysql.cj.jdbc.Driver
+  DROPLET_PASSWORD: ${{ secrets.DROPLET_PASSWORD }}
 
 jobs:
   build:
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
     permissions:
-      contents: read #This is required for actions/checkout
-
+      contents: read
     steps:
       - uses: actions/checkout@v4
 
@@ -28,7 +22,7 @@ jobs:
         uses: actions/setup-java@v4
         with:
           java-version: '21'
-          distribution: 'microsoft'
+          distribution: 'temurin'
 
       - name: Build with Maven
         run: mvn clean install
@@ -37,35 +31,40 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: java-app
-          path: '${{ github.workspace }}/target/*.jar'
+          path: ${{ github.workspace }}/target/*.jar
+          if-no-files-found: warn
 
   deploy:
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
     needs: build
     environment:
       name: 'Production'
-      url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
-    permissions:
-      id-token: write #This is required for requesting the JWT
-      contents: read #This is required for actions/checkout
-
     steps:
       - name: Download artifact from build job
         uses: actions/download-artifact@v4
         with:
           name: java-app
 
-      - name: Login to Azure
-        uses: azure/login@v2
-        with:
-           client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_81326A6A0B174A4FBC7803E6F1F8503A }}
-           tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_9AEED2AF7C8D4227BBC51B52A4648E61 }}
-           subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_88DB6D5E7E7746F8BC59BA580A321176 }}
+      - name: List files
+        run: ls -la
 
-      - name: Deploy to Azure Web App
-        id: deploy-to-webapp
-        uses: azure/webapps-deploy@v3
+      - name: Deploy to DigitalOcean
+        uses: appleboy/scp-action@master
         with:
-          app-name: 'SmartAgricultureAdvisior'
-          slot-name: 'Production'
-          package: '*.jar'
+          host: 139.59.10.226
+          username: root
+          password: ${{ secrets.DROPLET_PASSWORD }}
+          source: "*.jar"
+          target: "/root/spring-app/"
+
+      - name: Start application
+        uses: appleboy/ssh-action@master
+        with:
+          host: 139.59.10.226
+          username: root
+          password: ${{ secrets.DROPLET_PASSWORD }}
+          script: |
+            cd /root/spring-app
+            pkill -f '*.jar' || true
+            export DB_DRIVER_CLASS_NAME="${DB_DRIVER_CLASS_NAME}"
+            nohup java -jar *.jar > app.log 2>&1 &
