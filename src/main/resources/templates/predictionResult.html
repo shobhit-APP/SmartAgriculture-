@@ -1,49 +1,81 @@
-
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head>
-    <title>Prediction Result</title>
-    <link rel="stylesheet" href="../static/css/predictionresult.css">
-    <link rel="stylesheet" href="../static/css/tablestyle.css">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title th:text="${pageTitle}">Prediction Result</title>
+    <link rel="stylesheet" href="../static/css/predictionresult.css" />
+    <link rel="stylesheet" href="../static/css/tablestyle.css" />
+  </head>
+  <body>
+    <div class="prediction-result-container">
+      <h1 th:text="#{predictionresult.header.title}">Prediction Result</h1>
+      <p th:text="${message}"></p>
 
-</head>
-<body>
-<div class="container">
-    <h1>Prediction Result</h1>
-    <p th:text="${message}"></p>
-
-    <div class="result">
-        <h2>Predicted Prices (in Rupees)</h2>
+      <div class="result">
+        <h2 th:text="#{predictionresult.predicted_prices.title}">
+          Predicted Prices (in Rupees)
+        </h2>
         <table border="1">
-            <thead>
+          <thead>
             <tr>
-                <th>Prediction Model</th>
-                <th>Predicted Price</th>
+              <th th:text="#{predictionresult.table.header.prediction_model}">
+                Prediction Model
+              </th>
+              <th th:text="#{predictionresult.table.header.predicted_price}">
+                Predicted Price
+              </th>
             </tr>
-            </thead>
-            <tbody>
+          </thead>
+          <tbody>
             <tr>
-                <td>XGBoost Model</td>
-                <td th:text="${predictionResult['predicted_price_xgb']}"></td>
+              <td th:text="#{predictionresult.model.xgboost}">XGBoost Model</td>
+              <td th:text="${predictionResult['predicted_price_xgb']}"></td>
             </tr>
             <tr>
-                <td>Neural Network Model</td>
-                <td th:text="${predictionResult['predicted_price_nn']}"></td>
+              <td th:text="#{predictionresult.model.neural_network}">
+                Neural Network Model
+              </td>
+              <td th:text="${predictionResult['predicted_price_nn']}"></td>
             </tr>
             <tr>
-                <td>Ensemble Model</td>
-                <td th:text="${predictionResult['predicted_price_ensemble']}"></td>
+              <td th:text="#{predictionresult.model.ensemble}">
+                Ensemble Model
+              </td>
+              <td
+                th:text="${predictionResult['predicted_price_ensemble']}"
+              ></td>
             </tr>
-            </tbody>
+          </tbody>
         </table>
-        <h2>Best Predicted Price</h2>
-        <p>
-            <span th:text="${predictionResult['BEST']}"></span> ₹
-        </p>
-    </div>
+        <h2 th:text="#{predictionresult.best_price.title}">
+          Best Predicted Price
+        </h2>
+        <p><span th:text="${predictionResult['BEST']}"></span> ₹</p>
+      </div>
 
-    <a href="/api/Agriconnect" class="btn">Back To Home</a>
-</div>
-<script src="/static/javascript/result.js"></script>
-</body>
+      <div class="action-buttons">
+        <a
+          href="/api/Agriconnect"
+          class="btn"
+          th:text="#{predictionresult.back_to_home.button}"
+          >Back To Home</a
+        >
+        <div class="language-switcher btn">
+          <form action="#" method="get">
+            <i class="fas fa-globe me-2"></i>
+            <select name="lang" onchange="this.form.submit()">
+              <option value="en" th:selected="${#locale.language == 'en'}">
+                English
+              </option>
+              <option value="hi" th:selected="${#locale.language == 'hi'}">
+                हिन्दी
+              </option>
+            </select>
+          </form>
+        </div>
+      </div>
+    </div>
+    <script src="/static/javascript/result.js"></script>
+  </body>
 </html>

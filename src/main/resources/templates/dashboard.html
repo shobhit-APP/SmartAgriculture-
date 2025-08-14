@@ -1,122 +1,218 @@
-
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="">
-<head>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+  <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Smart Agriculture Advisor - Dashboard</title>
+    <title th:text="${pageTitle}">Smart Agriculture Advisor - Dashboard</title>
     <!-- Tailwind CSS for styling -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Chart.js for potential future visualizations -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <!-- Font Awesome for icons -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet" />
-       <link rel="stylesheet" href="/static/css/dash.css">
-
-</head>
-<body class="p-6">
-<div class="min-h-screen fade-in">
-    <!-- Navigation Bar -->
-    <nav class="nav-blur shadow-xl mb-8 rounded-2xl">
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/static/css/dash.css" />
+  </head>
+  <body class="p-6">
+    <div class="dashboard-container">
+      <!-- Navigation Bar -->
+      <nav class="nav-blur shadow-xl mb-8 rounded-2xl">
         <div class="max-w-7xl mx-auto px-6 py-4">
-            <div class="flex justify-between items-center">
-                <div class="flex items-center">
-                    <i class="fas fa-tractor text-green-600 text-3xl mr-3 animate-pulse"></i>
-                    <span class="text-2xl font-bold text-gray-800">AgriConnect</span>
-                </div>
-                <div class="flex items-center space-x-4">
-                    <a href="/api/Agriconnect" class="custom-button secondary-button">
-                        <i class="fas fa-home mr-1"></i> Home
-                    </a>
-                    <a href="/api/logout" class="custom-button primary-button">
-                        <i class="fas fa-sign-out-alt mr-1"></i> Logout
-                    </a>
-                </div>
+          <div class="flex justify-between items-center">
+            <div class="flex items-center">
+              <i
+                class="fas fa-tractor text-green-600 text-3xl mr-3 animate-pulse"
+              ></i>
+              <span class="text-2xl font-bold text-gray-800">AgriConnect</span>
             </div>
+            <div class="flex items-center space-x-4">
+              <div class="language-switcher custom-button secondary-button">
+                <form action="#" method="get">
+                  <i class="fas fa-globe mr-1"></i>
+                  <select name="lang" onchange="this.form.submit()">
+                    <option
+                      value="en"
+                      th:selected="${#locale.language == 'en'}"
+                    >
+                      English
+                    </option>
+                    <option
+                      value="hi"
+                      th:selected="${#locale.language == 'hi'}"
+                    >
+                      हिन्दी
+                    </option>
+                  </select>
+                </form>
+              </div>
+              <a href="/api/Agriconnect" class="custom-button secondary-button">
+                <i class="fas fa-home mr-1"></i>
+                <span th:text="#{homepage.title}">Home</span>
+              </a>
+              <a href="/api/logout" class="custom-button primary-button">
+                <i class="fas fa-sign-out-alt mr-1"></i>
+                <span th:text="#{logout.title}">Logout</span>
+              </a>
+            </div>
+          </div>
         </div>
-    </nav>
-    <!-- Main Dashboard Content -->
-    <div class="glass-container p-8 mb-8">
+      </nav>
+      <!-- Main Dashboard Content -->
+      <div class="glass-container p-8 mb-8">
         <div class="flex flex-col md:flex-row justify-between items-center">
-            <div>
-                <h1 class="text-3xl font-bold text-gray-800 mb-2">Farmer's Market Dashboard</h1>
-                <p class="text-gray-600">Real-time crop prices and market trends</p>
-            </div>
-            <div class="mt-4 md:mt-0">
-                <span class="bg-green-100 text-green-800 px-4 py-2 rounded-full text-sm font-medium">
-                    <i class="fas fa-sync-alt mr-2 animate-spin"></i> Updating Live
-                </span>
-            </div>
+          <div>
+            <h1
+              class="text-3xl font-bold text-gray-800 mb-2"
+              th:text="#{dashboard.header.title}"
+            >
+              Farmer's Market Dashboard
+            </h1>
+            <p class="text-gray-600" th:text="#{dashboard.header.subtitle}">
+              Real-time crop prices and market trends
+            </p>
+          </div>
+          <div class="mt-4 md:mt-0">
+            <span
+              class="bg-green-100 text-green-800 px-4 py-2 rounded-full text-sm font-medium"
+            >
+              <i class="fas fa-sync-alt mr-2 animate-spin"></i>
+              <span th:text="#{dashboard.status.live_update}"
+                >Updating Live</span
+              >
+            </span>
+          </div>
         </div>
-    </div>
+      </div>
 
-    <!-- Market Prices Table with Thymeleaf -->
-    <div class="table-container relative">
+      <!-- Market Prices Table with Thymeleaf -->
+      <div class="table-container relative">
         <div class="p-6 border-b border-gray-200">
-            <div class="flex flex-col md:flex-row justify-between items-center">
-                <h2 class="text-xl font-semibold text-gray-800 mb-4 md:mb-0">Market Prices</h2>
-                <div class="flex space-x-4">
-                    <button id="filterBtn" class="custom-button secondary-button">
-                        <i class="fas fa-filter mr-2"></i> Filter
-                    </button>
-                    <div id="filterDropdown" class="filter-dropdown absolute right-4 top-20 hidden">
-                        <h3 class="font-semibold text-gray-800 mb-4">Filter Markets</h3>
-                        <label for="stateFilter"></label>
-                        <select id="stateFilter" class="w-full p-3 border rounded-lg mb-4">
-                            <option value="">All States</option>
-                              <option th:each="state : ${state}"
-                                th:value="${state}"
-                                th:text="${state}"
-                                th:selected="${param.state == state}"></option>
-                        </select>
-                        <button id="applyFilter" class="w-full custom-button primary-button">Apply</button>
-                    </div>
-                    <button id="exportBtn" class="custom-button secondary-button">
-                        <i class="fas fa-download mr-2"></i> Export
-                    </button>
-                </div>
+          <div class="flex flex-col md:flex-row justify-between items-center">
+            <h2
+              class="text-xl font-semibold text-gray-800 mb-4 md:mb-0"
+              th:text="#{dashboard.table.title}"
+            >
+              Market Prices
+            </h2>
+            <div class="flex space-x-4">
+              <button id="filterBtn" class="custom-button secondary-button">
+                <i class="fas fa-filter mr-2"></i>
+                <span th:text="#{dashboard.button.filter}">Filter</span>
+              </button>
+              <div
+                id="filterDropdown"
+                class="filter-dropdown absolute right-4 top-20 hidden"
+              >
+                <h3
+                  class="font-semibold text-gray-800 mb-4"
+                  th:text="#{dashboard.filter.title}"
+                >
+                  Filter Markets
+                </h3>
+                <label for="stateFilter"></label>
+                <select
+                  id="stateFilter"
+                  class="w-full p-3 border rounded-lg mb-4"
+                >
+                  <option value="" th:text="#{dashboard.filter.all_states}">
+                    All States
+                  </option>
+                  <option
+                    th:each="state : ${state}"
+                    th:value="${state}"
+                    th:text="${state}"
+                    th:selected="${param.state == state}"
+                  ></option>
+                </select>
+                <button
+                  id="applyFilter"
+                  class="w-full custom-button primary-button"
+                  th:text="#{dashboard.button.apply}"
+                >
+                  Apply
+                </button>
+              </div>
+              <button id="exportBtn" class="custom-button secondary-button">
+                <i class="fas fa-download mr-2"></i>
+                <span th:text="#{dashboard.button.export}">Export</span>
+              </button>
             </div>
+          </div>
         </div>
         <div class="overflow-x-auto">
-            <table class="custom-table" id="marketTable">
-                <thead>
-                <tr>
-                    <th>State</th>
-                    <th>District</th>
-                    <th>Market</th>
-                    <th>Crop</th>
-                    <th>Date</th>
-                    <th>Min Price</th>
-                    <th>Max Price</th>
-                    <th>XGBoost Model Price</th>
-                    <th>Neural Network Model Price</th>
-                    <th>Ensemble Model Price</th>
-                    <th>Best Predicted Price</th>
-                </tr>
-                </thead>
-                <tbody id="marketTableBody">
-                <!-- Thymeleaf loop to display data -->
-                <tr th:each="crop : ${allMarketData}" class="bounce-in">
-                    <td th:text="${crop.state}"></td>
-                    <td th:text="${crop.district}"></td>
-                    <td th:text="${crop.market}"></td>
-                    <td th:text="${crop.cropName}"></td>
-                    <td th:text="${crop.arrivalDate}"></td>
-                    <td class="text-green-600 font-semibold" th:text="'₹' + ${crop.minPrice}"></td>
-                    <td class="text-green-600 font-semibold" th:text="'₹' + ${crop.maxPrice}"></td>
-                    <td class="text-blue-600 font-semibold" th:text="'₹' + ${crop.suggestedPrice}"></td>
-                    <td class="text-blue-600 font-semibold" th:text="'₹' + ${crop.suggestedPriceSecond}"></td>
-                    <td class="text-blue-600 font-semibold" th:text="'₹' + ${crop.suggestedPriceThird}"></td>
-                    <td class="text-blue-600 font-semibold" th:text="'₹' + ${crop.best_price}"></td>
-                </tr>
-                </tbody>
-            </table>
+          <table class="custom-table" id="marketTable">
+            <thead>
+              <tr>
+                <th th:text="#{dashboard.table.header.state}">State</th>
+                <th th:text="#{dashboard.table.header.district}">District</th>
+                <th th:text="#{dashboard.table.header.market}">Market</th>
+                <th th:text="#{dashboard.table.header.crop}">Crop</th>
+                <th th:text="#{dashboard.table.header.date}">Date</th>
+                <th th:text="#{dashboard.table.header.min_price}">Min Price</th>
+                <th th:text="#{dashboard.table.header.max_price}">Max Price</th>
+                <th th:text="#{dashboard.table.header.xgboost_price}">
+                  XGBoost Model Price
+                </th>
+                <th th:text="#{dashboard.table.header.neural_network_price}">
+                  Neural Network Model Price
+                </th>
+                <th th:text="#{dashboard.table.header.ensemble_price}">
+                  Ensemble Model Price
+                </th>
+                <th th:text="#{dashboard.table.header.best_price}">
+                  Best Predicted Price
+                </th>
+              </tr>
+            </thead>
+            <tbody id="marketTableBody">
+              <!-- Thymeleaf loop to display data -->
+              <tr th:each="crop : ${allMarketData}" class="bounce-in">
+                <td th:text="${crop.state}"></td>
+                <td th:text="${crop.district}"></td>
+                <td th:text="${crop.market}"></td>
+                <td th:text="${crop.cropName}"></td>
+                <td th:text="${crop.arrivalDate}"></td>
+                <td
+                  class="text-green-600 font-semibold"
+                  th:text="'₹' + ${crop.minPrice}"
+                ></td>
+                <td
+                  class="text-green-600 font-semibold"
+                  th:text="'₹' + ${crop.maxPrice}"
+                ></td>
+                <td
+                  class="text-blue-600 font-semibold"
+                  th:text="'₹' + ${crop.suggestedPrice}"
+                ></td>
+                <td
+                  class="text-blue-600 font-semibold"
+                  th:text="'₹' + ${crop.suggestedPriceSecond}"
+                ></td>
+                <td
+                  class="text-blue-600 font-semibold"
+                  th:text="'₹' + ${crop.suggestedPriceThird}"
+                ></td>
+                <td
+                  class="text-blue-600 font-semibold"
+                  th:text="'₹' + ${crop.best_price}"
+                ></td>
+              </tr>
+            </tbody>
+          </table>
         </div>
         <div class="p-6 text-center">
-            <button id="showMoreBtn" class="custom-button primary-button">Show More</button>
+          <button
+            id="showMoreBtn"
+            class="custom-button primary-button"
+            th:text="#{dashboard.button.show_more}"
+          >
+            Show More
+          </button>
         </div>
+      </div>
     </div>
-</div>
-<script src="/static/javascript/dash2.js"></script>
-</body>
+    <script src="/static/javascript/dash2.js"></script>
+  </body>
 </html>

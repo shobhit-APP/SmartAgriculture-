@@ -1,80 +1,123 @@
-
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Options - Smart Agriculture Advisor</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="/static/css/option.css"/>
-</head>
-<body>
-<header class="header">
-    <div class="logo">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title th:text="${pageTitle}">Options - Smart Agriculture Advisor</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <link rel="stylesheet" href="/static/css/option.css" />
+  </head>
+  <body>
+    <header class="header">
+      <div class="logo">
         <i class="fas fa-leaf"></i>
         <span class="logo-text">AgriSmart</span>
-    </div>
-    <div class="action-buttons">
+      </div>
+      <div class="action-buttons">
         <a href="/api/ChatBot" class="chatbot-btn">
-            <i class="fas fa-robot"></i>
-            Chat with Advisor
+          <i class="fas fa-robot"></i>
+          <span th:text="#{option.button.chat_advisor}">Chat with Advisor</span>
         </a>
         <a href="/api/Agriconnect" class="back-to-home">
-            <i class="fas fa-home"></i>
-            Back to Home
+          <i class="fas fa-home"></i>
+          <span th:text="#{homepage.title}">Back to Home</span>
         </a>
-    </div>
-</header>
+        <div class="language-switcher option-btn">
+          <form action="#" method="get">
+            <i class="fas fa-globe me-2"></i>
+            <select name="lang" onchange="this.form.submit()">
+              <option value="en" th:selected="${#locale.language == 'en'}">
+                English
+              </option>
+              <option value="hi" th:selected="${#locale.language == 'hi'}">
+                हिन्दी
+              </option>
+            </select>
+          </form>
+        </div>
+      </div>
+    </header>
 
-<main class="main-content">
-    <div class="welcome-text">
-        <h1>Smart Agriculture Advisor</h1>
-        <p>Select an option below to access our intelligent farming tools and recommendations</p>
-    </div>
+    <main class="main-content">
+      <div class="welcome-text">
+        <h1 th:text="#{option.welcome.title}">Smart Agriculture Advisor</h1>
+        <p th:text="#{option.welcome.subtitle}">
+          Select an option below to access our intelligent farming tools and
+          recommendations
+        </p>
+      </div>
 
-    <div class="options">
+      <div class="options">
         <a th:href="@{/api/dashboard}" class="nav-button">
-            <i class="fas fa-chart-line"></i>
-            <div class="title">Previous Price Predictions</div>
-            <div class="description">View your history of crop price predictions and analyze trends</div>
+          <i class="fas fa-chart-line"></i>
+          <div class="title" th:text="#{option.card1.title}">
+            Previous Price Predictions
+          </div>
+          <div class="description" th:text="#{option.card1.description}">
+            View your history of crop price predictions and analyze trends
+          </div>
         </a>
 
         <a th:href="@{/api/dashboard1}" class="nav-button">
-            <i class="fas fa-history"></i>
-            <div class="title">Previous Recommendations</div>
-            <div class="description">Access your past crop recommendations and farming advice</div>
+          <i class="fas fa-history"></i>
+          <div class="title" th:text="#{option.card2.title}">
+            Previous Recommendations
+          </div>
+          <div class="description" th:text="#{option.card2.description}">
+            Access your past crop recommendations and farming advice
+          </div>
         </a>
 
         <a href="/api/predict" class="nav-button">
-            <i class="fas fa-coins"></i>
-            <div class="title">Crop Price Prediction</div>
-            <div class="description">Get AI-powered predictions for crop market prices</div>
+          <i class="fas fa-coins"></i>
+          <div class="title" th:text="#{option.card3.title}">
+            Crop Price Prediction
+          </div>
+          <div class="description" th:text="#{option.card3.description}">
+            Get AI-powered predictions for crop market prices
+          </div>
         </a>
 
         <a href="/api/recommend" class="nav-button">
-            <i class="fas fa-seedling"></i>
-            <div class="title">Crop Recommendation</div>
-            <div class="description">Receive personalized crop suggestions based on your farm conditions</div>
+          <i class="fas fa-seedling"></i>
+          <div class="title" th:text="#{option.card4.title}">
+            Crop Recommendation
+          </div>
+          <div class="description" th:text="#{option.card4.description}">
+            Receive personalized crop suggestions based on your farm conditions
+          </div>
         </a>
 
         <a href="/api/ImageAnalysis" class="nav-button image-upload-button">
-            <i class="fas fa-camera"></i>
-            <div class="title">Crop Image Analysis</div>
-            <div class="description">Get solutions by uploading images of your crops</div>
+          <i class="fas fa-camera"></i>
+          <div class="title" th:text="#{option.card5.title}">
+            Crop Image Analysis
+          </div>
+          <div class="description" th:text="#{option.card5.description}">
+            Get solutions by uploading images of your crops
+          </div>
         </a>
 
         <a href="/api/logout" class="nav-button">
-            <i class="fas fa-sign-out-alt"></i>
-            <div class="title">Logout</div>
-            <div class="description">Sign out from your account</div>
+          <i class="fas fa-sign-out-alt"></i>
+          <div class="title" th:text="#{option.card6.title}">Logout</div>
+          <div class="description" th:text="#{option.card6.description}">
+            Sign out from your account
+          </div>
         </a>
-    </div>
-</main>
+      </div>
+    </main>
 
-<footer class="footer">
-    <p>© 2025 Smart Agriculture Advisor - Empowering farmers with intelligent solutions</p>
-</footer>
+    <footer class="footer">
+      <p th:text="#{option.footer.text}">
+        © 2025 Smart Agriculture Advisor - Empowering farmers with intelligent
+        solutions
+      </p>
+    </footer>
 
-<script src="/static/javascript/Option.js"></script>
-</body>
+    <script src="/static/javascript/Option.js"></script>
+  </body>
 </html>

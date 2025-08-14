@@ -11,6 +11,7 @@ import jakarta.servlet.http.HttpSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.web.csrf.CsrfToken;
 import org.springframework.stereotype.Controller;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 
@@ -37,58 +39,61 @@ import java.util.Set;
  */
 @RequestMapping("/api")
 public class CropPriceController {
-    public static final Logger log= LoggerFactory.getLogger(CropPriceController.class);
-    /*
-        This is Filed Injection To Inject The Object  of Any Component
-        Here is Crop Is The Crop Component
-        Autowired  Annotation Is The Annotation Is Used To Connect with of Crop
-        or To Initialize The Crop....
-     */
+    public static final Logger log = LoggerFactory.getLogger(CropPriceController.class);
+
     @Autowired
-    private MarketServices Services;
+    private MarketServices services;
+
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private MessageSource messageSource; // Inject MessageSource for localization
+
     /*
-    The GetMapping Annotation Is Used To Map The Request
-    For any Specific Body
-    Let's suppose You Have  Request to Get marketDetails Then You Should Use
-    That Annotations To mapped That Service of That Method
-    */
+        The GetMapping Annotation Is Used To Map The Request
+        For any Specific Body
+        Let's suppose You Have  Request to Get marketDetails Then You Should Use
+        That Annotations To mapped That Service of That Method
+     */
     @GetMapping("/csrf_token")
-    public CsrfToken getCsrfToken(HttpServletRequest request)
-    {
+    public CsrfToken getCsrfToken(HttpServletRequest request) {
         return (CsrfToken) request.getAttribute("_csrf");
     }
+
     @GetMapping("/dashboard")
-    public String getAllMarketDetails(@AuthenticationPrincipal UserPrinciples userPrinciples, Model model, @RequestParam(required = false) String state) {
+    public String getAllMarketDetails(@AuthenticationPrincipal UserPrinciples userPrinciples, Model model,
+                                      @RequestParam(required = false) String state, Locale locale) {
         Long userId = userPrinciples.getUserId();
-        List<Crop> marketData = Services.GetAllMarketDetailsById(userId);
-        Set<String> unique_state = Services.getUniqueState(userId);
+        List<Crop> marketData = services.GetAllMarketDetailsById(userId);
+        Set<String> uniqueState = services.getUniqueState(userId);
+
         // Handle the case when state is null or empty
         List<Crop> marketData1 = (state != null && !state.isEmpty())
-                ? Services.findByStateAndUserId(state, userId)
+                ? services.findByStateAndUserId(state, userId)
                 : marketData;
 
         if (marketData.isEmpty() && marketData1.isEmpty()) {
             log.error("No Previous Crop Price Prediction Result found for UserId: {}", userId);
-            throw new AnyException("Sorry! No Previous Crop Price Prediction Result found for UserId: " + userId);
+            String errorMessage = messageSource.getMessage("dashboard.error.no_data", new Object[]{userId}, locale);
+            throw new AnyException(errorMessage);
         }
 
-        // Use different attribute names to avoid overriding
-        model.addAttribute("state",unique_state);
+        // Add localized attributes
+        model.addAttribute("pageTitle", messageSource.getMessage("dashboard.title", null, locale));
+        model.addAttribute("state", uniqueState);
         model.addAttribute("allMarketData", marketData);
         return "dashboard";
     }
 
     @GetMapping("/predict")
-    public String PricePredictionModel()
-    {
+    public String pricePredictionModel(Model model, Locale locale) {
+        model.addAttribute("pageTitle", messageSource.getMessage("predict.title", null, locale));
         return "predict";
     }
-    @PostMapping("/predict")
-    public String predict(@ModelAttribute  Crop crop, Model model , HttpSession session)
-    {
 
+    @PostMapping("/predict")
+    public String predict(@ModelAttribute Crop crop, Model model, HttpSession session, Locale locale) {
         log.info("Received Crop Data:");
         log.info("State: {}", crop.getState());
         log.info("District: {}", crop.getDistrict());
@@ -97,35 +102,31 @@ public class CropPriceController {
         log.info("Arrival Date: {}", crop.getArrivalDate());
         log.info("Min Price: {}", crop.getMinPrice());
         log.info("Max Price: {}", crop.getMaxPrice());
-        Long sessionId=(Long) session.getAttribute("UserId");
-        if(sessionId==null)
-        {
+
+        Long sessionId = (Long) session.getAttribute("UserId");
+        if (sessionId == null) {
             log.error("User ID not found in the session. Possible session timeout or invalid session or SessionID Is Not set.");
-            throw new AnyException("Sorry!, User session has expired or is invalid. Please log in again.");
+            String errorMessage = messageSource.getMessage("predict.error.session_expired", null, locale);
+            throw new AnyException(errorMessage);
         }
-        try{
-            UserDetails1 userDetails1=userService.findByUserId(sessionId);
-            if(userDetails1==null)
-            {
 
+        try {
+            UserDetails1 userDetails1 = userService.findByUserId(sessionId);
+            if (userDetails1 == null) {
                 log.error("User details not found for UserId {}. Possible database issue or incorrect UserId.", sessionId);
-                throw new AnyException("Sorry, we were unable to find your user details. Please verify your UserId or try again later.");
-
+                String errorMessage = messageSource.getMessage("predict.error.user_not_found", new Object[]{sessionId}, locale);
+                throw new AnyException(errorMessage);
             }
             crop.setUserDetails1(userDetails1);
-        }
-        catch (Exception e)
-        {
-
+        } catch (Exception e) {
             log.error("An unexpected error occurred while finding UserDetails for UserId: {}. Exception: {}", sessionId, e.getMessage());
-            throw new AnyException("Sorry, An unexpected error occurred while processing your request. Please try again later. If the problem persists, contact support");
-
+            String errorMessage = messageSource.getMessage("predict.error.unexpected", null, locale);
+            throw new AnyException(errorMessage);
         }
 
-        Map<String,Object> PredictionResult=Services.getPrediction(crop);
-        model.addAttribute("message", "Great! We've analyzed multiple models to give you the best predicted price for your crop.");
-        model.addAttribute("predictionResult",PredictionResult);
+        Map<String, Object> predictionResult = services.getPrediction(crop);
+        model.addAttribute("message", messageSource.getMessage("predict.success.message", null, locale));
+        model.addAttribute("predictionResult", predictionResult);
         return "predictionResult";
-
     }
 }

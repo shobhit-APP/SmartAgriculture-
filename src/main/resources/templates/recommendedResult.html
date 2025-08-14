@@ -1,77 +1,261 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
-<head>
+  <head>
     <meta charset="UTF-8" />
-    <title>Crop Recommendation Result</title>
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+    <title th:text="${pageTitle}">
+      Crop Recommendation Result | Smart Agriculture Advisor
+    </title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="../static/css/recommendationresult.css">
-</head>
-<body class="min-h-screen bg-gradient-to-br from-gray-100 to-purple-200 flex items-center justify-center p-5 font-poppins">
-<div class="container relative bg-white rounded-2xl p-8 md:p-10 max-w-6xl w-full shadow-2xl overflow-hidden animate-fade-in">
-    <header class="mb-8 relative text-center">
-        <h1 class="text-3xl md:text-4xl text-gray-800 font-bold relative pb-4">Crop Recommendation</h1>
-        <div class="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-20 h-1 bg-green-500"></div>
-    </header>
+    <link rel="stylesheet" href="../static/css/recommendationresult.css" />
+  </head>
+  <body>
+    <div class="recommended-result-container">
+      <div class="result-card animate-fade-in">
+        <!-- Header Section -->
+        <div class="header-section">
+          <h1 class="page-title">
+            <i class="fas fa-seedling me-3"></i>
+            <span th:text="#{recommendedresult.header.title}"
+              >Crop Recommendation Result</span
+            >
+          </h1>
+          <p class="page-subtitle" th:text="${message}">
+            AI-powered analysis complete
+          </p>
+        </div>
 
-    <div class="mb-6 text-gray-600 text-lg leading-relaxed text-center" th:text="${message}"></div>
-
-    <div class="flex flex-col md:flex-row md:space-x-6">
-        <!-- Recommended Crop Section -->
-        <section class="result relative bg-green-100 bg-opacity-10 rounded-xl p-6 border-l-4 border-green-500 mb-6 md:mb-0 md:w-1/3">
-            <div class="crop-icon w-16 h-16 mx-auto mb-4 relative animate-grow-plant">
-                <svg class="w-full h-full text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                </svg>
+        <!-- Content Grid -->
+        <div class="content-grid">
+          <!-- Recommended Crop Card -->
+          <div class="recommendation-card animate-reveal-crop">
+            <div class="crop-icon-container animate-grow-plant">
+              <i class="fas fa-leaf crop-icon"></i>
             </div>
-            <h2 class="text-2xl text-green-600 font-semibold mb-4">Recommended Crop</h2>
-            <p class="text-2xl font-bold text-gray-800 animate-reveal-crop"><strong>English:</strong> <span th:text="${recommendedResult['predicted_crop']}"></span></p>
-            <p class="text-2xl font-bold text-gray-800 animate-reveal-crop"><strong>Hindi:</strong> <span th:text="${recommendedResult['hindi_name']}"></span></p>
-            <div class="relative mt-4 before:content-[''] before:absolute before:top-[-10px] before:left-1/2 before:transform before:-translate-x-1/2 before:w-5 before:h-5 before:bg-white before:border-2 before:border-green-500 before:rounded-full before:z-10"></div>
-        </section>
+            <h2
+              class="crop-title"
+              th:text="#{recommendedresult.recommended_crop.title}"
+            >
+              Recommended Crop
+            </h2>
+            <div class="crop-names">
+              <div class="crop-name">
+                <span th:text="${recommendedResult['predicted_crop']}"
+                  >Wheat</span
+                >
+              </div>
+            </div>
+          </div>
 
-        <!-- Description and Image Section -->
-        <div class="flex flex-col md:w-1/3 space-y-6">
-            <section class="description bg-gray-50 rounded-xl p-6">
-                <h3 class="text-xl text-gray-800 font-medium mb-4">Description</h3>
-                <p class="text-base text-gray-600"><strong>English:</strong> <span th:text="${recommendedResult['english_description']} ?: 'No description available.'"></span></p>
-                <p class="text-base text-gray-600 mt-2"><strong>Hindi:</strong> <span th:text="${recommendedResult['hindi_description']} ?: 'विवरण उपलब्ध नहीं है।'"></span></p>
-            </section>
+          <!-- Description Card -->
+          <div class="info-card description-card">
+            <div class="card-header">
+              <div class="card-icon description-icon">
+                <i class="fas fa-info-circle"></i>
+              </div>
+              <h3
+                class="card-title"
+                th:text="#{recommendedresult.description.title}"
+              >
+                Description
+              </h3>
+            </div>
+            <div class="description-text">
+              <p>
+                <span
+                  th:text="${recommendedResult['english_description'] ?: #{'recommendedresult.description.placeholder'}}"
+                ></span>
+              </p>
+            </div>
+            <img
+              th:src="${recommendedResult['image_url'] ?: '/static/images/placeholder-crop.jpg'}"
+              alt="Crop Image"
+              class="crop-image"
+            />
+          </div>
 
-
-            <section class="crop-image">
-                <img th:src="${recommendedResult['image_url'] ?: '/static/images/placeholder-crop.jpg'}" alt="Crop Image" class="w-full h-48 object-cover rounded-xl shadow-md" />
-            </section>
-
+          <!-- Conditions Card -->
+          <div class="info-card conditions-card">
+            <div class="card-header">
+              <div class="card-icon conditions-icon">
+                <i class="fas fa-thermometer-half"></i>
+              </div>
+              <h3
+                class="card-title"
+                th:text="#{recommendedresult.optimal_conditions.title}"
+              >
+                Optimal Conditions
+              </h3>
+            </div>
+            <div class="conditions-grid">
+              <div class="condition-item">
+                <div
+                  class="condition-label"
+                  th:text="#{recommendedresult.condition.temperature}"
+                >
+                  Temperature
+                </div>
+                <div
+                  class="condition-value"
+                  th:text="${recommendedResult['temperature'] ?: '20-30°C'}"
+                >
+                  20-30°C
+                </div>
+              </div>
+              <div class="condition-item">
+                <div
+                  class="condition-label"
+                  th:text="#{recommendedresult.condition.water_needs}"
+                >
+                  Water Needs
+                </div>
+                <div
+                  class="condition-value"
+                  th:text="${recommendedResult['water_needs'] ?: 'Moderate'}"
+                >
+                  Moderate
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
 
-        <!-- Care Tips and Conditions Section -->
-        <div class="flex flex-col md:w-1/3 space-y-6">
-            <section class="care-tips bg-yellow-50 bg-opacity-10 rounded-xl p-6">
-                <h3 class="text-xl text-yellow-600 font-medium mb-4">Care Tips (देखभाल के सामान्य सुझाव)</h3>
-                <ul class="text-base text-gray-600 list-disc list-inside">
-                    <li>नियमित रूप से सिंचाई करें, विशेष रूप से फसल की वृद्धि के महत्वपूर्ण चरणों में।</li>
-                    <li>खेत में जल निकासी की उचित व्यवस्था सुनिश्चित करें ताकि जलभराव न हो।</li>
-                    <li>मिट्टी की गुणवत्ता बनाए रखने के लिए समय-समय पर जैविक खाद या गोबर की खाद डालें।</li>
-                    <li>फसल को पर्याप्त धूप और खुली हवा मिलनी चाहिए।</li>
-                    <li>समय-समय पर निराई-गुड़ाई करें ताकि खरपतवार न बढ़ें।</li>
-                    <li>कीट और रोगों से बचाव के लिए जैविक या आवश्यक रसायनों का उपयोग करें।</li>
-                    <li>फसल की वृद्धि के अनुसार आवश्यक पोषक तत्वों की आपूर्ति करें।</li>
-                    <li>फसल चक्र अपनाएं ताकि मिट्टी की उर्वरता बनी रहे।</li>
-                    <li>स्थानीय कृषि विशेषज्ञों से सलाह लेते रहें और मौसम की जानकारी पर ध्यान दें।</li>
-                </ul>
-            </section>
+        <!-- Care Tips Section -->
+        <div class="care-tips-section">
+          <div class="care-tips-header">
+            <div class="tips-icon">
+              <i class="fas fa-lightbulb"></i>
+            </div>
+            <h3
+              class="tips-title"
+              th:text="#{recommendedresult.care_tips.title}"
+            >
+              Care Tips
+            </h3>
+          </div>
+          <div class="tips-grid">
+            <div class="tip-item">
+              <div class="tip-bullet"></div>
+              <div
+                class="tip-text"
+                th:text="#{recommendedresult.care_tips.tip1}"
+              >
+                Irrigate regularly, especially during critical growth stages of
+                the crop.
+              </div>
+            </div>
+            <div class="tip-item">
+              <div class="tip-bullet"></div>
+              <div
+                class="tip-text"
+                th:text="#{recommendedresult.care_tips.tip2}"
+              >
+                Ensure proper drainage in the field to prevent waterlogging.
+              </div>
+            </div>
+            <div class="tip-item">
+              <div class="tip-bullet"></div>
+              <div
+                class="tip-text"
+                th:text="#{recommendedresult.care_tips.tip3}"
+              >
+                Apply organic manure or compost periodically to maintain soil
+                quality.
+              </div>
+            </div>
+            <div class="tip-item">
+              <div class="tip-bullet"></div>
+              <div
+                class="tip-text"
+                th:text="#{recommendedresult.care_tips.tip4}"
+              >
+                Ensure the crop receives adequate sunlight and ventilation.
+              </div>
+            </div>
+            <div class="tip-item">
+              <div class="tip-bullet"></div>
+              <div
+                class="tip-text"
+                th:text="#{recommendedresult.care_tips.tip5}"
+              >
+                Perform weeding regularly to prevent weed growth.
+              </div>
+            </div>
+            <div class="tip-item">
+              <div class="tip-bullet"></div>
+              <div
+                class="tip-text"
+                th:text="#{recommendedresult.care_tips.tip6}"
+              >
+                Use organic or necessary chemicals to protect against pests and
+                diseases.
+              </div>
+            </div>
+            <div class="tip-item">
+              <div class="tip-bullet"></div>
+              <div
+                class="tip-text"
+                th:text="#{recommendedresult.care_tips.tip7}"
+              >
+                Supply essential nutrients based on the crop's growth stage.
+              </div>
+            </div>
+            <div class="tip-item">
+              <div class="tip-bullet"></div>
+              <div
+                class="tip-text"
+                th:text="#{recommendedresult.care_tips.tip8}"
+              >
+                Adopt crop rotation to maintain soil fertility.
+              </div>
+            </div>
+            <div class="tip-item">
+              <div class="tip-bullet"></div>
+              <div
+                class="tip-text"
+                th:text="#{recommendedresult.care_tips.tip9}"
+              >
+                Consult local agricultural experts regularly and monitor weather
+                updates.
+              </div>
+            </div>
+          </div>
         </div>
-        <section class="conditions bg-blue-50 bg-opacity-10 rounded-xl p-6">
-                <h3 class="text-xl text-blue-600 font-medium mb-4">Optimal Conditions</h3>
-                <p class="text-base text-gray-600"><strong>Temperature:</strong> <span th:text="${recommendedResult['temperature'] ?: '20-30°C'}"></span></p>
-                <p class="text-base text-gray-600"><strong>Water Needs:</strong> <span th:text="${recommendedResult['water_needs'] ?: 'Moderate'}"></span></p>
-            <div class="h-6"></div>
-            <a href="/api/Agriconnect" class="action-btn inline-block bg-green-500 text-white py-3 px-8 rounded-full font-medium text-lg hover:bg-green-600 hover:shadow-lg hover:-translate-y-1 transition-all duration-300 shadow-md relative overflow-hidden">Back to Home</a>
-        </section>
+
+        <!-- Action Section -->
+        <div class="action-section">
+          <a href="/api/Agriconnect" class="back-button">
+            <i class="fas fa-arrow-left"></i>
+            <span th:text="#{homepage.title}">Back to Home</span>
+          </a>
+          <div class="language-switcher back-button">
+            <form action="#" method="get">
+              <i class="fas fa-globe me-2"></i>
+              <select name="lang" onchange="this.form.submit()">
+                <option value="en" th:selected="${#locale.language == 'en'}">
+                  English
+                </option>
+                <option value="hi" th:selected="${#locale.language == 'hi'}">
+                  हिन्दी
+                </option>
+              </select>
+            </form>
+          </div>
         </div>
+      </div>
     </div>
-<script src="/static/javascript/result.js"></script>
-</body>
+
+    <script src="/static/javascript/result.js"></script>
+  </body>
 </html>

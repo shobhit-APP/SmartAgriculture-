@@ -2,7 +2,7 @@
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap");
 
 :root {
- --primary-color: #0fe669e5;
+  --primary-color: #0fe669e5;
   --primary-dark: #27ae60;
   --secondary-color: #3498db;
 }
@@ -48,8 +48,12 @@
 }
 
 @keyframes width-animation {
-  0% { width: 5%; }
-  100% { width: 100%; }
+  0% {
+    width: 5%;
+  }
+  100% {
+    width: 100%;
+  }
 }
 
 /* Rotating sun animation */
@@ -59,8 +63,12 @@
 }
 
 @keyframes rotate {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 /* Body and existing styles */
@@ -153,11 +161,7 @@ body::before {
 }
 
 .submit-button {
-  background: linear-gradient(
-    45deg,
-    var(--primary-color),
-    var(--primary-dark)
-  );
+  background: linear-gradient(45deg, var(--primary-color), var(--primary-dark));
   color: white;
   padding: 1rem 2rem;
   border-radius: 12px;
@@ -262,4 +266,51 @@ body::before {
     text-align: center;
     margin-bottom: 10px;
   }
+}
+
+.language-switcher {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  border-radius: 12px;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 6px rgba(46, 204, 113, 0.2);
+  position: relative;
+  overflow: hidden;
+  background-color: var(--primary-color);
+  color: white;
+}
+
+.language-switcher:hover {
+  background-color: var(--primary-dark);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(46, 204, 113, 0.3);
+}
+
+.language-switcher select {
+  background: transparent;
+  border: none;
+  color: white;
+  font-size: 1em;
+  cursor: pointer;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  padding-right: 1.5rem;
+}
+
+.language-switcher select option {
+  background-color: var(--primary-color);
+  color: white;
+}
+
+/* Custom arrow for select dropdown */
+.language-switcher::after {
+  content: "\f0d7"; /* Font Awesome chevron-down icon */
+  font-family: "Font Awesome 6 Free";
+  font-weight: 900;
+  position: absolute;
+  right: 0.75rem;
+  pointer-events: none;
 }

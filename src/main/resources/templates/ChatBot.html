@@ -1,50 +1,75 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AgriConnect ChatBot</title>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="../static/css/chat.css">
+    <title th:text="${pageTitle}">AgriConnect ChatBot</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/static/css/chat.css" />
 </head>
 <body>
-<div class="container">
+<div class="chatbot-container">
     <header class="header">
-        <h1><i class="fas fa-seedling"></i> AgriConnect ChatBot</h1>
-        <p>Your Agricultural Assistant</p>
+        <h1 th:text="${pageTitle}">
+            <i class="fas fa-seedling"></i>
+            AgriConnect ChatBot
+        </h1>
+        <p>Your Smart Agricultural Assistant</p>
+        <div class="language-switcher">
+            <i class="fas fa-globe"></i>
+            <select id="language-select" aria-label="Select Language">
+                <option value="en">English</option>
+                <option value="hi">हिंदी</option>
+            </select>
+        </div>
     </header>
     <main class="chat-box">
-        <section id="messages" class="messages">
-            <div class="message bot">Hello! I'm your AgriConnect assistant. How can I help you today with your farming queries?</div>
-            <div class="typing-indicator">
-                <span></span><span></span><span></span>
+        <div id="messages" class="messages">
+            <div class="message bot">
+                <strong>🌱 Welcome to AgriConnect!</strong><br>
+                I'm your intelligent agricultural assistant, ready to help with crop recommendations, soil analysis, weather insights, market prices, and farming techniques. How can I assist you today?
             </div>
-        </section>
+            <div class="typing-indicator">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
     </main>
+
     <div class="faq-container">
-        <button class="faq-chip" id="features-btn">Features of AgriConnect</button>
-        <button class="faq-chip" id="how-to-use-btn">How to Use AgriConnect</button>
-        <button class="faq-chip" id="how-it-helps-btn">How AgriConnect Helps</button>
-        <select class="language-select" id="language-select" aria-label="Select Language">
-            <option value="en">English/अंग्रेज़ी</option>
-            <option value="hi">Hindi/हिंदी</option>
-            <option value="bn">Bengali/বাংলা</option>
-            <option value="te">Telugu/తెలుగు</option>
-            <option value="mr">Marathi/मराठी</option>
-            <option value="ta">Tamil/தமிழ்</option>
-            <option value="gu">Gujarati/ગુજરાતી</option>
-            <option value="kn">Kannada/ಕನ್ನಡ</option>
-            <option value="ml">Malayalam/മലയാളം</option>
-            <option value="pa">Punjabi/ਪੰਜਾਬੀ</option>
-            <option value="or">Odia/ଓଡ଼ିଆ</option>
-            <option value="as">Assamese/অসমীয়া</option>
-        </select>
+        <button class="faq-chip" id="features-btn">
+            <i class="fas fa-star"></i> Features
+        </button>
+        <button class="faq-chip" id="how-to-use-btn">
+            <i class="fas fa-question-circle"></i> How to Use
+        </button>
+        <button class="faq-chip" id="how-it-helps-btn">
+            <i class="fas fa-hands-helping"></i> How It Helps
+        </button>
     </div>
+
     <form id="chat-form" class="chat-form">
-        <label for="user-message"></label><input id="user-message" class="user-input" type="text" placeholder="Type your message...">
-        <button type="submit" class="send-btn"><i class="fas fa-paper-plane"></i></button>
+        <div class="input-container">
+            <input
+                    id="user-message"
+                    class="user-input"
+                    type="text"
+                    placeholder="Ask me anything about agriculture..."
+                    maxlength="500"
+                    autocomplete="off"
+            />
+        </div>
+        <button type="submit" class="send-btn" title="Send Message">
+            <i class="fas fa-paper-plane"></i>
+        </button>
     </form>
+
+    <div class="status-indicator" id="status-indicator">
+        Connecting to server...
+    </div>
 </div>
+
 <script src="/static/javascript/chatbot.js"></script>
 </body>
 </html>

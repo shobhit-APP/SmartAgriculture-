@@ -1,5 +1,5 @@
 /* prediction result.css */
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap");
 
 :root {
   --primary-color: #2ecc71;
@@ -14,7 +14,7 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: 'Poppins', sans-serif;
+  font-family: "Poppins", sans-serif;
 }
 
 body {
@@ -56,7 +56,7 @@ h1 {
 }
 
 h1:after {
-  content: '';
+  content: "";
   position: absolute;
   bottom: 0;
   left: 50%;
@@ -106,7 +106,7 @@ p {
 }
 
 .result:before {
-  content: '';
+  content: "";
   position: absolute;
   top: -10px;
   left: 50%;
@@ -144,7 +144,7 @@ p {
 }
 
 .btn:after {
-  content: '';
+  content: "";
   position: absolute;
   width: 0;
   height: 0;
@@ -162,8 +162,9 @@ p {
 }
 
 /* Decorative elements */
-.container:before, .container:after {
-  content: '';
+.container:before,
+.container:after {
+  content: "";
   position: absolute;
   width: 200px;
   height: 200px;
@@ -224,3 +225,59 @@ p {
   }
 }
 
+.action-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  margin-top: 30px;
+  flex-wrap: wrap;
+}
+
+.language-switcher {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: var(--primary-color);
+  color: white;
+  text-decoration: none;
+  padding: 12px 30px;
+  border-radius: 30px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(46, 204, 113, 0.3);
+  position: relative;
+  overflow: hidden;
+}
+
+.language-switcher:hover {
+  background: var(--secondary-color);
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(46, 204, 113, 0.4);
+}
+
+.language-switcher select {
+  background: transparent;
+  border: none;
+  color: white;
+  font-size: 1em;
+  cursor: pointer;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  padding-right: 1.5rem;
+}
+
+.language-switcher select option {
+  background-color: var(--primary-color);
+  color: white;
+}
+
+/* Custom arrow for select dropdown */
+.language-switcher::after {
+  content: "\f0d7"; /* Font Awesome chevron-down icon */
+  font-family: "Font Awesome 6 Free";
+  font-weight: 900;
+  position: absolute;
+  right: 0.75rem;
+  pointer-events: none;
+}

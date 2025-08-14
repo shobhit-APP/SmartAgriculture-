@@ -1,4 +1,4 @@
-// recommendationresult.js
+
 document.addEventListener('DOMContentLoaded', function() {
     // Create crop icon SVG
     const resultDiv = document.querySelector('.result');

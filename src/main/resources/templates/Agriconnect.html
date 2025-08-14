@@ -1,90 +1,58 @@
-<!--<!DOCTYPE html>-->
-<!--<html lang="en">-->
-<!--  <head>-->
-<!--    <meta charset="UTF-8" />-->
-<!--    <meta name="viewport" content="width=device-width, initial-scale=1.0" />-->
-<!--    <title>Smart Agriculture Advisor</title>-->
-<!--    <link-->
-<!--      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"-->
-<!--      rel="stylesheet"-->
-<!--    />-->
-<!--    <link rel="stylesheet" href="../static/css/Agriconnect.css" />-->
-<!--  </head>-->
-<!--  <body>-->
-<!--    <div class="landing-container">-->
-<!--      <div class="side-buttons">-->
-<!--        <a href="/api/Option" class="side-button">-->
-<!--          <i class="fas fa-compass"></i> Explore Our Smart Advisor-->
-<!--        </a>-->
-<!--      </div>-->
-
-<!--      <div class="landing-content">-->
-<!--        <h1 class="landing-title">Smart Agriculture Advisor</h1>-->
-<!--        <p class="landing-subtitle">-->
-<!--          Empowering Farmers with Intelligent Insights-->
-<!--        </p>-->
-
-<!--        <div class="action-buttons">-->
-<!--          <a href="/api/login" class="btn btn-primary">-->
-<!--            <i class="fas fa-sign-in-alt"></i> Login-->
-<!--          </a>-->
-<!--          <a href="/api/register" class="btn btn-secondary">-->
-<!--            <i class="fas fa-user-plus"></i> Register-->
-<!--          </a>-->
-<!--        </div>-->
-<!--      </div>-->
-
-<!--      <a-->
-<!--        href="/api/AgriconnectChatBot"-->
-<!--        class="chatbot-button"-->
-<!--        title="Chat with Agriconnect Bot"-->
-<!--      >-->
-<!--        <i class="fas fa-comment-dots"></i>-->
-<!--      </a>-->
-<!--    </div>-->
-<!--  </body>-->
-<!--</html>-->
-
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Smart Agriculture Advisor</title>
+  <title th:text="#{homepage.title}">Smart Agriculture Advisor</title>
   <link
           href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
           rel="stylesheet"
   />
   <link rel="stylesheet" href="../static/css/Agriconnect.css" />
-  <style>
-  </style>
+  <style></style>
 </head>
 <body>
 <div class="landing-container">
   <!-- Background Video -->
   <video class="background-video" autoplay muted loop>
-    <source src="https://v.ftcdn.net/01/76/20/47/700_F_176204748_ecTDsAXOQdHI6QZWG95GlQvs9DIpjlAE_ST.mp4" type="video/mp4">
-    <!-- Replace the src with your agriculture video, e.g., "../static/videos/agriculture-video.mp4" -->
+    <source
+            src="../static/assets/1988560-uhd_3840_2160_24fps.mp4"
+            type="video/mp4"
+    />
     Your browser does not support the video tag.
   </video>
 
+  <div class="language-switcher">
+    <form action="#" method="get">
+      <i class="fas fa-globe"></i>
+      <select name="lang" onchange="this.form.submit()">
+        <option value="en" th:selected="${#locale.language == 'en'}">
+          English
+        </option>
+        <option value="hi" th:selected="${#locale.language == 'hi'}">
+          हिन्दी
+        </option>
+      </select>
+    </form>
+  </div>
+
   <div class="side-buttons">
-    <a href="/api/Option" class="side-button">
+    <a href="/api/Option" class="side-button" th:text="#{agriconnect.explore_button}">
       <i class="fas fa-compass"></i> Explore Our Smart Advisor
     </a>
   </div>
 
   <div class="landing-content">
-    <h1 class="landing-title">Smart Agriculture Advisor</h1>
-    <p class="landing-subtitle">
+    <h1 class="landing-title" th:text="#{homepage.title}">Smart Agriculture Advisor</h1>
+    <p class="landing-subtitle" th:text="#{agriconnect.subtitle}">
       Empowering Farmers with Intelligent Insights
     </p>
 
     <div class="action-buttons">
-      <a href="/api/login" class="btn btn-primary">
+      <a href="/api/login" class="btn btn-primary" th:text="#{agriconnect.login_button}">
         <i class="fas fa-sign-in-alt"></i> Login
       </a>
-      <a href="/api/register" class="btn btn-secondary">
+      <a href="/api/register" class="btn btn-secondary" th:text="#{agriconnect.register_button}">
         <i class="fas fa-user-plus"></i> Register
       </a>
     </div>
@@ -93,6 +61,7 @@
   <a
           href="/api/ChatBot"
           class="chatbot-button"
+          th:title="#{agriconnect.chatbot_title}"
           title="Chat with Agriconnect Bot"
   >
     <i class="fas fa-comment-dots"></i>
